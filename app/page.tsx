@@ -1,33 +1,25 @@
-import Navigation from "../navigation"
-import HeroSection from "../hero-section"
-import OpportunitiesSection from "../opportunities-section"
-import ProgramsSection from "../programs-section"
-import DirectorySection from "../directory-section"
-import ContactSection from "../contact-section"
-import Footer from "../footer"
-import WhatsAppButton from "../whatsapp-button"
+import Navigation from '@/components/navigation'
+import Hero from '@/components/sections/hero'
+import Programs from '@/components/sections/programs'
+import LearningHub from '@/components/sections/learning-hub'
+import Directory from '@/components/sections/directory'
+import Contact from '@/components/sections/contact'
+import Footer from '@/components/footer'
+import WhatsAppButton from '@/components/whatsapp-button'
 
 export default function Page() {
   return (
-    <div className="min-h-screen">
+    <>
       <Navigation />
-      <section id="home">
-        <HeroSection />
-      </section>
-      <section id="opportunities">
-        <OpportunitiesSection />
-      </section>
-      <section id="training">
-        <ProgramsSection />
-      </section>
-      <section id="directory">
-        <DirectorySection />
-      </section>
-      <section id="contact">
-        <ContactSection />
-      </section>
+      <main>
+        <Hero />
+        <Programs />
+        <LearningHub />
+        <Directory />
+        <Contact />
+      </main>
       <Footer />
       <WhatsAppButton />
-    </div>
+    </>
   )
 }
