@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -19,64 +18,19 @@ import {
   Target,
 } from "lucide-react"
 import Link from "next/link"
+import { notFound } from "next/navigation"
+import { getOpportunityById } from "@/data/opportunities"
 
-export default function OpportunityDetailPage({ id }: { id?: string }) {
-  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false)
-
-  const opportunity = {
-    id: id || "1",
-    title: "Fondo Emprender Turismo: Convocatoria 2024",
-    programName: "Fondo Emprender Turismo",
-    status: "Activo",
-    deadline: "15 Marzo 2024",
-    eligibility: "Jóvenes de 18–28 años",
-    summary:
-      "Financiación hasta $50 millones para proyectos turísticos sostenibles en La Guajira. Este fondo busca impulsar emprendimientos innovadores que fortalezcan el turismo cultural y preserven las tradiciones wayuu.",
-    supportType: "Fondo No Reembolsable",
-    requirements: [
-      "Cédula de ciudadanía colombiana",
-      "Plan de negocio detallado",
-      "Certificado de estudios (mínimo bachillerato)",
-      "Carta de intención firmada",
-      "Presupuesto del proyecto",
-      "Certificación de residencia en La Guajira",
-    ],
-    applicationSteps: [
-      "Registrarse en la plataforma oficial",
-      "Completar el formulario de postulación",
-      "Cargar todos los documentos requeridos",
-      "Enviar la propuesta antes de la fecha límite",
-      "Esperar confirmación de recepción",
-      "Participar en entrevista (si es seleccionado)",
-    ],
-    faqs: [
-      {
-        question: "¿Qué pasa si no cumplo todos los requisitos?",
-        answer:
-          "Puedes aplicar si cumples al menos el 80% de los requisitos. El comité evaluará cada caso individualmente y podrá solicitar documentación adicional.",
-      },
-      {
-        question: "¿Puedo aplicar si ya tengo un negocio establecido?",
-        answer:
-          "Sí, siempre y cuando tu negocio tenga menos de 2 años de operación y esté relacionado con turismo sostenible en La Guajira.",
-      },
-      {
-        question: "¿Cuánto tiempo toma el proceso de evaluación?",
-        answer:
-          "El proceso completo toma aproximadamente 45 días hábiles desde el cierre de la convocatoria hasta la publicación de resultados.",
-      },
-      {
-        question: "¿Necesito tener experiencia previa en turismo?",
-        answer:
-          "No es obligatorio, pero se valorará positivamente. Ofrecemos programas de formación complementarios para fortalecer las capacidades empresariales.",
-      },
-    ],
+export default function OpportunityDetailPage({ id }: { id: string }) {
+  const opportunity = getOpportunityById(id)
+  if (!opportunity) {
+    notFound()
   }
 
   const handleWhatsAppClick = () => {
     const phoneNumber = "573001234567"
     const message = encodeURIComponent(
-      `¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.title}". ¿Podrían ayudarme?`,
+      `¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.detailTitle}". ¿Podrían ayudarme?`,
     )
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
     window.open(whatsappUrl, "_blank", "noopener,noreferrer")
@@ -104,15 +58,17 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             <CardHeader className="pb-6">
               {/* Program Tag */}
               <div className="mb-3">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-turquoise-100 text-turquoise-800 border border-turquoise-200">
-                  Parte del programa: {opportunity.programName}
-                </span>
+                <Link href={`/program/${opportunity.programId}`}>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-turquoise-100 text-turquoise-800 border border-turquoise-200 hover:bg-turquoise-200 transition-colors cursor-pointer">
+                    Parte del programa: {opportunity.programName}
+                  </span>
+                </Link>
               </div>
 
               {/* Title and Status */}
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex-1">
-                  <h1 className="text-2xl lg:text-3xl font-bold text-amber-900 leading-tight">{opportunity.title}</h1>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-amber-900 leading-tight">{opportunity.detailTitle}</h1>
                 </div>
                 <div className="flex-shrink-0">
                   <span className="inline-flex items-center px-3 py-2 rounded-full text-sm font-bold bg-green-100 text-green-800 border-2 border-green-200">
@@ -146,7 +102,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
         {/* Summary */}
         <Card className="mb-6 border border-gray-200">
           <CardContent className="pt-6">
-            <p className="text-lg text-gray-700 leading-relaxed">{opportunity.summary}</p>
+            <p className="text-lg text-gray-700 leading-relaxed">{opportunity.description}</p>
           </CardContent>
         </Card>
 
@@ -164,7 +120,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             </CardHeader>
             <CardContent>
               <p className="text-green-800 font-semibold">{opportunity.supportType}</p>
-              <p className="text-sm text-green-700 mt-1">Hasta $50 millones COP</p>
+              <p className="text-sm text-green-700 mt-1">{opportunity.fundingAmount}</p>
             </CardContent>
           </Card>
 
@@ -180,7 +136,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             </CardHeader>
             <CardContent>
               <p className="text-amber-800 font-semibold">Cierre: {opportunity.deadline}</p>
-              <p className="text-sm text-amber-700 mt-1">Resultados: 30 días después</p>
+              <p className="text-sm text-amber-700 mt-1">{opportunity.resultsTimeline}</p>
             </CardContent>
           </Card>
         </div>
@@ -197,8 +153,8 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
-              {opportunity.requirements.map((req, index) => (
-                <li key={index} className="flex items-start space-x-3">
+              {opportunity.requirements.map((req) => (
+                <li key={req} className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-700">{req}</span>
                 </li>
@@ -220,7 +176,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
           <CardContent>
             <ol className="space-y-4">
               {opportunity.applicationSteps.map((step, index) => (
-                <li key={index} className="flex items-start space-x-4">
+                <li key={step} className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-8 h-8 bg-turquoise-100 text-turquoise-800 rounded-full flex items-center justify-center text-sm font-bold">
                     {index + 1}
                   </div>
@@ -254,7 +210,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
               {opportunity.faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionItem key={faq.question} value={`item-${index}`}>
                   <AccordionTrigger className="text-left hover:text-turquoise-700">{faq.question}</AccordionTrigger>
                   <AccordionContent className="text-gray-600 leading-relaxed">{faq.answer}</AccordionContent>
                 </AccordionItem>

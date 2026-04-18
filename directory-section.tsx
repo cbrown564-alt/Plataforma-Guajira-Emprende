@@ -4,179 +4,22 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Building2, MapPin, Phone, Mail, ExternalLink, Star, ArrowRight } from "lucide-react"
+import {
+  businesses,
+  businessCategoryMeta,
+  countBusinessesByCategory,
+  type BusinessCategory,
+} from "@/data/businesses"
+
+type CategoryFilter = BusinessCategory | "Todos"
 
 export default function DirectorySection() {
-  const [selectedCategory, setSelectedCategory] = useState("Todos")
+  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("Todos")
 
-  const businesses = [
-    {
-      id: 1,
-      name: "Wayuu Desert Tours",
-      category: "Turismo Cultural",
-      location: "Uribia, La Guajira",
-      description:
-        "Experiencias auténticas con comunidades wayuu, incluyendo visitas a rancherías y talleres de artesanías.",
-      contact: {
-        phone: "+57 300 123 4567",
-        email: "info@wayuudesert.com",
-        website: "www.wayuudesert.com",
-      },
-      rating: 4.8,
-      reviews: 127,
-      image: "/placeholder.svg?height=200&width=300&text=Wayuu+Tours",
-      tags: ["Turismo Cultural", "Artesanías", "Comunidad Wayuu"],
-    },
-    {
-      id: 2,
-      name: "Cabo Ecohotel",
-      category: "Hospedaje",
-      location: "Cabo de la Vela, La Guajira",
-      description: "Hotel ecológico con vista al mar, construido con materiales locales y energía solar.",
-      contact: {
-        phone: "+57 301 234 5678",
-        email: "reservas@caboecohotel.com",
-        website: "www.caboecohotel.com",
-      },
-      rating: 4.6,
-      reviews: 89,
-      image: "/placeholder.svg?height=200&width=300&text=Cabo+Ecohotel",
-      tags: ["Hospedaje", "Sostenible", "Vista al Mar"],
-    },
-    {
-      id: 3,
-      name: "Sabores Guajiros",
-      category: "Gastronomía",
-      location: "Riohacha, La Guajira",
-      description: "Restaurante especializado en cocina tradicional wayuu y mariscos frescos del Caribe.",
-      contact: {
-        phone: "+57 302 345 6789",
-        email: "contacto@saboresguajiros.com",
-        website: "www.saboresguajiros.com",
-      },
-      rating: 4.7,
-      reviews: 156,
-      image: "/placeholder.svg?height=200&width=300&text=Sabores+Guajiros",
-      tags: ["Gastronomía", "Mariscos", "Cocina Wayuu"],
-    },
-    {
-      id: 4,
-      name: "Aventuras Punta Gallinas",
-      category: "Ecoturismo",
-      location: "Punta Gallinas, La Guajira",
-      description: "Expediciones al punto más septentrional de Sudamérica con guías locales especializados.",
-      contact: {
-        phone: "+57 303 456 7890",
-        email: "info@aventuraspunta.com",
-        website: "www.aventuraspunta.com",
-      },
-      rating: 4.9,
-      reviews: 203,
-      image: "/placeholder.svg?height=200&width=300&text=Punta+Gallinas",
-      tags: ["Ecoturismo", "Aventura", "Guías Locales"],
-    },
-    {
-      id: 5,
-      name: "Artesanías Wayuu Authentic",
-      category: "Artesanías",
-      location: "Manaure, La Guajira",
-      description: "Taller familiar de artesanías wayuu tradicionales, mochilas, hamacas y joyería.",
-      contact: {
-        phone: "+57 304 567 8901",
-        email: "info@wayuuauthentic.com",
-        website: "www.wayuuauthentic.com",
-      },
-      rating: 4.5,
-      reviews: 78,
-      image: "/placeholder.svg?height=200&width=300&text=Artesanias+Wayuu",
-      tags: ["Artesanías", "Mochilas", "Tradición Wayuu"],
-    },
-    {
-      id: 6,
-      name: "Posada del Desierto",
-      category: "Hospedaje",
-      location: "Cabo de la Vela, La Guajira",
-      description: "Hospedaje familiar con vista al desierto y acceso directo a la playa.",
-      contact: {
-        phone: "+57 305 678 9012",
-        email: "reservas@posadadeldesierto.com",
-        website: "www.posadadeldesierto.com",
-      },
-      rating: 4.3,
-      reviews: 92,
-      image: "/placeholder.svg?height=200&width=300&text=Posada+Desierto",
-      tags: ["Hospedaje", "Familiar", "Playa"],
-    },
-    {
-      id: 7,
-      name: "Mariscos del Caribe",
-      category: "Gastronomía",
-      location: "Riohacha, La Guajira",
-      description: "Especialistas en mariscos frescos y pescados del Caribe con recetas tradicionales.",
-      contact: {
-        phone: "+57 306 789 0123",
-        email: "info@mariscosdelcaribe.com",
-        website: "www.mariscosdelcaribe.com",
-      },
-      rating: 4.4,
-      reviews: 134,
-      image: "/placeholder.svg?height=200&width=300&text=Mariscos+Caribe",
-      tags: ["Gastronomía", "Mariscos", "Pescados"],
-    },
-    {
-      id: 8,
-      name: "Transporte Guajira Express",
-      category: "Transporte",
-      location: "Riohacha, La Guajira",
-      description: "Servicio de transporte turístico especializado en rutas por La Guajira.",
-      contact: {
-        phone: "+57 307 890 1234",
-        email: "info@guajiraexpress.com",
-        website: "www.guajiraexpress.com",
-      },
-      rating: 4.2,
-      reviews: 67,
-      image: "/placeholder.svg?height=200&width=300&text=Transporte+Express",
-      tags: ["Transporte", "Turístico", "Rutas"],
-    },
-  ]
-
-  const categories = [
-    { name: "Todos", count: businesses.length, color: "bg-gray-100 text-gray-800" },
-    {
-      name: "Turismo Cultural",
-      count: businesses.filter((b) => b.category === "Turismo Cultural").length,
-      color: "bg-turquoise-100 text-turquoise-800",
-    },
-    {
-      name: "Hospedaje",
-      count: businesses.filter((b) => b.category === "Hospedaje").length,
-      color: "bg-coral-100 text-coral-800",
-    },
-    {
-      name: "Gastronomía",
-      count: businesses.filter((b) => b.category === "Gastronomía").length,
-      color: "bg-amber-100 text-amber-800",
-    },
-    {
-      name: "Ecoturismo",
-      count: businesses.filter((b) => b.category === "Ecoturismo").length,
-      color: "bg-green-100 text-green-800",
-    },
-    {
-      name: "Artesanías",
-      count: businesses.filter((b) => b.category === "Artesanías").length,
-      color: "bg-purple-100 text-purple-800",
-    },
-    {
-      name: "Transporte",
-      count: businesses.filter((b) => b.category === "Transporte").length,
-      color: "bg-blue-100 text-blue-800",
-    },
-  ]
-
-  // Filter businesses based on selected category
   const filteredBusinesses =
-    selectedCategory === "Todos" ? businesses : businesses.filter((business) => business.category === selectedCategory)
+    selectedCategory === "Todos"
+      ? businesses
+      : businesses.filter((business) => business.category === selectedCategory)
 
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-b from-white to-turquoise-50/30">
@@ -194,19 +37,23 @@ export default function DirectorySection() {
         <div className="mb-12">
           <h3 className="text-xl font-bold text-amber-900 mb-6 text-center">Explora por categoría</h3>
           <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedCategory(category.name)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border border-opacity-50 ${
-                  selectedCategory === category.name
-                    ? `${category.color} border-current shadow-md scale-105`
-                    : `${category.color} border-current opacity-70 hover:opacity-100`
-                }`}
-              >
-                {category.name} ({category.count})
-              </button>
-            ))}
+            {businessCategoryMeta.map((category) => {
+              const count = countBusinessesByCategory(category.name)
+              const isActive = selectedCategory === category.name
+              return (
+                <button
+                  key={category.name}
+                  onClick={() => setSelectedCategory(category.name)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border border-opacity-50 ${
+                    isActive
+                      ? `${category.color} border-current shadow-md scale-105`
+                      : `${category.color} border-current opacity-70 hover:opacity-100`
+                  }`}
+                >
+                  {category.name} ({count})
+                </button>
+              )
+            })}
           </div>
 
           {/* Filter Results Info */}
@@ -261,8 +108,8 @@ export default function DirectorySection() {
                 <CardContent className="space-y-4">
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2">
-                    {business.tags.map((tag, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
+                    {business.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
                         {tag}
                       </span>
                     ))}

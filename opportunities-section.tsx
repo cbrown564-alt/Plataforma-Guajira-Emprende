@@ -1,51 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, GraduationCap, Users, Calendar, CheckCircle, ArrowRight } from "lucide-react"
+import { DollarSign, Calendar, CheckCircle, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { opportunities, type Opportunity } from "@/data/opportunities"
 
 export default function OpportunitiesSection() {
-  const opportunities = [
-    {
-      id: 1,
-      title: "Fondo Emprender Turismo",
-      description: "Financiación hasta $50M para proyectos turísticos sostenibles en La Guajira",
-      fundingType: "Fondo No Reembolsable",
-      deadline: "15 Mar 2024",
-      eligibility: "Jóvenes 18-28 años",
-      icon: DollarSign,
-      iconColor: "text-green-600",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-      programName: "Fondo Emprender Turismo",
-    },
-    {
-      id: 2,
-      title: "Escuela de Turismo Wayuu",
-      description: "Programa de formación en turismo cultural y gestión empresarial",
-      fundingType: "Formación Gratuita",
-      deadline: "30 Ene 2024",
-      eligibility: "Comunidades locales",
-      icon: GraduationCap,
-      iconColor: "text-turquoise-600",
-      bgColor: "bg-turquoise-50",
-      borderColor: "border-turquoise-200",
-      programName: "Escuela de Turismo Wayuu",
-    },
-    {
-      id: 3,
-      title: "Microcréditos Bancóldex",
-      description: "Créditos blandos para emprendimientos turísticos con acompañamiento",
-      fundingType: "Microcrédito",
-      deadline: "Convocatoria Abierta",
-      eligibility: "PYMES turísticas",
-      icon: Users,
-      iconColor: "text-coral-600",
-      bgColor: "bg-coral-50",
-      borderColor: "border-coral-200",
-      programName: "Microcréditos Bancóldex",
-    },
-  ]
-
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-b from-white to-amber-50/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,8 +27,8 @@ export default function OpportunitiesSection() {
             </div>
             {/* Scroll Indicator */}
             <div className="flex justify-center mt-4 space-x-2">
-              {opportunities.map((_, index) => (
-                <div key={index} className="w-2 h-2 rounded-full bg-amber-300" />
+              {opportunities.map((opportunity) => (
+                <div key={opportunity.id} className="w-2 h-2 rounded-full bg-amber-300" />
               ))}
             </div>
           </div>
@@ -97,7 +56,7 @@ export default function OpportunitiesSection() {
   )
 }
 
-function OpportunityCard({ opportunity }: { opportunity: any }) {
+function OpportunityCard({ opportunity }: { opportunity: Opportunity }) {
   const IconComponent = opportunity.icon
 
   return (
@@ -111,7 +70,7 @@ function OpportunityCard({ opportunity }: { opportunity: any }) {
           </div>
           <div className="text-right">
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-              Activo
+              {opportunity.status}
             </span>
           </div>
         </div>
@@ -124,7 +83,7 @@ function OpportunityCard({ opportunity }: { opportunity: any }) {
         </div>
 
         <CardTitle className="text-xl font-bold text-amber-900 mt-2">{opportunity.title}</CardTitle>
-        <p className="text-amber-700 text-sm leading-relaxed">{opportunity.description}</p>
+        <p className="text-amber-700 text-sm leading-relaxed">{opportunity.summary}</p>
       </CardHeader>
 
       <CardContent className="space-y-3">
