@@ -6,8 +6,21 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Users, MapPin, Mail, MessageCircle, CheckCircle, Heart, Sparkles, ArrowRight } from "lucide-react"
+import {
+  ArrowLeft,
+  Users,
+  MapPin,
+  Mail,
+  CheckCircle,
+  Heart,
+  Sparkles,
+  ArrowRight,
+  AlertCircle,
+} from "lucide-react"
 import Link from "next/link"
+
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/f/REPLACE_ME"
 
 export default function JoinCommunityPage() {
   const [formData, setFormData] = useState({
@@ -15,9 +28,11 @@ export default function JoinCommunityPage() {
     municipio: "",
     contacto: "",
     tipoApoyo: [] as string[],
+    descripcion: "",
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const supportTypes = [
     { id: "financiacion", label: "Financiación para mi proyecto", icon: "💰" },
@@ -60,27 +75,38 @@ export default function JoinCommunityPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage(null)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          municipio: formData.municipio,
+          contacto: formData.contacto,
+          tipoApoyo: formData.tipoApoyo.join(", "),
+          descripcion: formData.descripcion,
+        }),
+      })
 
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-  }
+      if (!response.ok) {
+        throw new Error(`Formspree responded with ${response.status}`)
+      }
 
-  const handleWhatsAppBroadcast = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      `¡Hola! Me acabo de unir a la comunidad de Plataforma Guajira Emprende. Mi nombre es ${formData.nombre} y soy de ${formData.municipio}. Me gustaría unirme a la lista de difusión de WhatsApp para recibir actualizaciones sobre oportunidades y eventos. ¡Gracias!`,
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+      setIsSubmitted(true)
+    } catch (err) {
+      setErrorMessage(
+        "No pudimos enviar tu registro. Verifica tu conexión o escríbenos a tesis@guajiraemprende.co.",
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50/30 to-white">
-        {/* Navigation Header */}
         <div className="bg-white border-b border-green-200/50 sticky top-0 z-40 shadow-sm">
           <div className="container mx-auto px-4 py-4">
             <Link
@@ -94,7 +120,6 @@ export default function JoinCommunityPage() {
         </div>
 
         <div className="container mx-auto px-4 py-12 max-w-2xl">
-          {/* Success Message */}
           <Card className="border-2 border-green-200 bg-green-50 text-center">
             <CardContent className="pt-12 pb-8">
               <div className="mb-6">
@@ -103,66 +128,27 @@ export default function JoinCommunityPage() {
                 </div>
               </div>
 
-              <h1 className="text-3xl font-bold text-green-900 mb-4">¡Bienvenido a la comunidad!</h1>
+              <h1 className="text-3xl font-bold text-green-900 mb-4">¡Gracias por tu registro!</h1>
 
-              <p className="text-lg text-green-700 mb-8 leading-relaxed">
-                Gracias <strong>{formData.nombre}</strong> por unirte a nuestra comunidad de emprendedores turísticos en
-                La Guajira. Pronto recibirás información sobre las oportunidades que mejor se adapten a tus necesidades.
+              <p className="text-lg text-green-700 mb-6 leading-relaxed">
+                Recibimos tus datos, <strong>{formData.nombre}</strong>. Forman parte del trabajo de campo de
+                la tesis y nos ayudan a entender mejor las necesidades de los emprendedores en La Guajira.
               </p>
 
-              {/* Next Steps */}
-              <div className="bg-white rounded-lg p-6 mb-8 border border-green-200">
-                <h3 className="text-xl font-bold text-green-900 mb-4">Próximos pasos:</h3>
-                <div className="space-y-3 text-left">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-turquoise-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
-                      1
-                    </div>
-                    <span className="text-green-800">Revisa tu correo electrónico para confirmar tu registro</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-turquoise-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
-                      2
-                    </div>
-                    <span className="text-green-800">Explora las oportunidades disponibles en la plataforma</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-turquoise-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
-                      3
-                    </div>
-                    <span className="text-green-800">Únete a nuestro grupo de WhatsApp para actualizaciones</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* WhatsApp Broadcast CTA */}
-              <div className="space-y-4">
-                <Button
-                  onClick={handleWhatsAppBroadcast}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-full shadow-lg"
-                >
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  Unirme a WhatsApp Broadcast
-                </Button>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Link href="#opportunities" className="flex-1">
-                    <Button
-                      variant="outline"
-                      className="w-full border-2 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50 font-semibold py-3 rounded-full"
-                    >
-                      Ver Oportunidades
-                    </Button>
-                  </Link>
-                  <Link href="/onboarding" className="flex-1">
-                    <Button
-                      variant="outline"
-                      className="w-full border-2 border-coral-500 text-coral-700 hover:bg-coral-50 font-semibold py-3 rounded-full"
-                    >
-                      Comenzar Emprendimiento
-                    </Button>
-                  </Link>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/" className="flex-1">
+                  <Button
+                    variant="outline"
+                    className="w-full border-2 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50 font-semibold py-3 rounded-full"
+                  >
+                    Volver al inicio
+                  </Button>
+                </Link>
+                <Link href="/#programas" className="flex-1">
+                  <Button className="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white font-semibold py-3 rounded-full">
+                    Ver programas
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
@@ -173,7 +159,6 @@ export default function JoinCommunityPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/30 to-white">
-      {/* Navigation Header */}
       <div className="bg-white border-b border-amber-200/50 sticky top-0 z-40 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <Link
@@ -187,7 +172,6 @@ export default function JoinCommunityPage() {
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="mb-6">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-turquoise-500 to-coral-500 rounded-full mb-4">
@@ -195,31 +179,30 @@ export default function JoinCommunityPage() {
             </div>
           </div>
 
-          <h1 className="text-3xl lg:text-4xl font-bold text-amber-900 mb-4">Únete Ahora</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold text-amber-900 mb-4">Únete</h1>
 
           <p className="text-lg text-amber-700 leading-relaxed mb-2">
-            Sé parte de nuestra comunidad de emprendedores turísticos en La Guajira.
+            Cuéntanos sobre tu proyecto. Tus respuestas alimentan el trabajo de campo de la tesis y nos
+            ayudan a documentar qué necesitan los emprendedores turísticos de La Guajira.
           </p>
 
           <div className="flex items-center justify-center space-x-2 text-sm text-amber-600">
             <Heart className="h-4 w-4" />
-            <span>Más de 500 emprendedores ya forman parte de nuestra familia</span>
+            <span>Toma menos de 2 minutos</span>
           </div>
         </div>
 
-        {/* Registration Form */}
         <Card className="border-2 border-amber-200 bg-white shadow-lg">
           <CardHeader>
             <CardTitle className="text-xl text-amber-900 flex items-center">
               <Sparkles className="h-6 w-6 mr-3 text-turquoise-600" />
-              Completa tu registro
+              Completa el formulario
             </CardTitle>
-            <p className="text-amber-700">Cuéntanos un poco sobre ti para conectarte con las mejores oportunidades</p>
+            <p className="text-amber-700">Solo necesitamos algunos datos básicos.</p>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Nombre */}
               <div>
                 <label className="block text-sm font-medium text-amber-800 mb-2">
                   <Users className="h-4 w-4 inline mr-2" />
@@ -235,7 +218,6 @@ export default function JoinCommunityPage() {
                 />
               </div>
 
-              {/* Municipio */}
               <div>
                 <label className="block text-sm font-medium text-amber-800 mb-2">
                   <MapPin className="h-4 w-4 inline mr-2" />
@@ -256,7 +238,6 @@ export default function JoinCommunityPage() {
                 </select>
               </div>
 
-              {/* Contacto */}
               <div>
                 <label className="block text-sm font-medium text-amber-800 mb-2">
                   <Mail className="h-4 w-4 inline mr-2" />
@@ -270,10 +251,11 @@ export default function JoinCommunityPage() {
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
                   placeholder="tu@email.com o +57 300 123 4567"
                 />
-                <p className="text-xs text-amber-600 mt-1">Puedes usar tu correo electrónico o número de WhatsApp</p>
+                <p className="text-xs text-amber-600 mt-1">
+                  Puedes usar tu correo electrónico o número de WhatsApp.
+                </p>
               </div>
 
-              {/* Tipo de Apoyo */}
               <div>
                 <label className="block text-sm font-medium text-amber-800 mb-4">
                   ¿Qué tipo de apoyo buscas? (puedes seleccionar varios)
@@ -287,7 +269,9 @@ export default function JoinCommunityPage() {
                       <Checkbox
                         id={support.id}
                         checked={formData.tipoApoyo.includes(support.id)}
-                        onCheckedChange={(checked) => handleSupportTypeChange(support.id, checked as boolean)}
+                        onCheckedChange={(checked) =>
+                          handleSupportTypeChange(support.id, checked as boolean)
+                        }
                         className="mt-1 data-[state=checked]:bg-turquoise-600 data-[state=checked]:border-turquoise-600"
                       />
                       <label htmlFor={support.id} className="flex-1 cursor-pointer">
@@ -301,7 +285,26 @@ export default function JoinCommunityPage() {
                 </div>
               </div>
 
-              {/* Submit Button */}
+              <div>
+                <label className="block text-sm font-medium text-amber-800 mb-2">
+                  Cuéntanos sobre tu proyecto (opcional)
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.descripcion}
+                  onChange={(e) => handleInputChange("descripcion", e.target.value)}
+                  className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent resize-none"
+                  placeholder="¿Qué haces hoy? ¿Qué te gustaría desarrollar?"
+                />
+              </div>
+
+              {errorMessage && (
+                <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-800">
+                  <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -310,63 +313,21 @@ export default function JoinCommunityPage() {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Procesando...
+                    Enviando...
                   </>
                 ) : (
                   <>
-                    Únete a la comunidad
+                    Enviar mis datos
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </>
                 )}
               </Button>
-            </form>
-          </CardContent>
-        </Card>
 
-        {/* Benefits Section */}
-        <Card className="mt-8 border-2 border-coral-200 bg-coral-50">
-          <CardContent className="pt-6">
-            <h3 className="text-xl font-bold text-coral-900 mb-4 text-center">
-              ¿Qué obtienes al unirte a nuestra comunidad?
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm">📢</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-coral-900">Actualizaciones exclusivas</h4>
-                  <p className="text-sm text-coral-700">Sé el primero en conocer nuevas oportunidades</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm">🤝</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-coral-900">Red de contactos</h4>
-                  <p className="text-sm text-coral-700">Conecta con otros emprendedores</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm">📚</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-coral-900">Recursos gratuitos</h4>
-                  <p className="text-sm text-coral-700">Acceso a guías y herramientas</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm">🎯</span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-coral-900">Apoyo personalizado</h4>
-                  <p className="text-sm text-coral-700">Orientación según tus necesidades</p>
-                </div>
-              </div>
-            </div>
+              <p className="text-xs text-center text-amber-600">
+                Tus datos se envían a la persona responsable de la tesis y se usan únicamente con fines
+                académicos.
+              </p>
+            </form>
           </CardContent>
         </Card>
       </div>

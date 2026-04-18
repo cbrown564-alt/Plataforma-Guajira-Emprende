@@ -22,34 +22,34 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
-          {/* Government Badge */}
+          {/* Thesis Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
             <span className="text-white text-sm font-medium">
-              Gobierno de Colombia • Ministerio de Comercio, Industria y Turismo
+              Propuesta académica • Tesis de pregrado
             </span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg">
-            Empodera tu
-            <span className="block text-yellow-300">Emprendimiento Turístico</span>
+            Un punto de partida para
+            <span className="block text-yellow-300">emprender en turismo</span>
             <span className="block text-turquoise-300 text-3xl sm:text-4xl lg:text-5xl mt-2">en La Guajira</span>
           </h1>
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl lg:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Accede a apoyos, formación y comunidad con un solo clic. Conectamos emprendedores wayuu y guajiros con
-            oportunidades reales para hacer crecer sus negocios turísticos.
+            Una propuesta académica para conectar emprendedores turísticos wayuu y guajiros con los
+            programas, recursos y referentes que ya existen.
           </p>
 
           {/* CTA Button */}
           <div className="pt-4 sm:pt-6">
-            <Link href="/onboarding">
+            <Link href="/unete">
               <Button
                 size="lg"
                 className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-lg px-8 py-4 h-auto rounded-full shadow-2xl transform hover:scale-105 transition-all duration-200"
               >
-                Comienza Tu Emprendimiento
+                Déjanos tus datos
               </Button>
             </Link>
           </div>
@@ -57,8 +57,8 @@ export default function HeroSection() {
           {/* Supporting Text */}
           <div className="pt-6 sm:pt-8">
             <p className="text-white/90 text-sm sm:text-base max-w-2xl mx-auto drop-shadow-sm">
-              Respaldado por el gobierno colombiano para fortalecer el turismo sostenible y preservar nuestras
-              tradiciones culturales
+              Este sitio es un prototipo de investigación. Los enlaces te llevan a las fuentes oficiales
+              de cada programa.
             </p>
           </div>
         </div>

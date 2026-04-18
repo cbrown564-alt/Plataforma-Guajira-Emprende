@@ -22,11 +22,11 @@ export default function Navigation() {
   }
 
   const navLinks = [
-    { name: "Inicio", href: "#home" },
-    { name: "Oportunidades", href: "#opportunities" },
-    { name: "Programas", href: "#training" },
-    { name: "Directorio", href: "#directory" },
-    { name: "Contacto", href: "#contact" },
+    { name: "Inicio", href: "#inicio" },
+    { name: "Programas", href: "#programas" },
+    { name: "Aprender", href: "#aprender" },
+    { name: "Directorio", href: "#directorio" },
+    { name: "Contacto", href: "#contacto" },
   ]
 
   return (
@@ -72,7 +72,7 @@ export default function Navigation() {
 
           {/* CTA Button - Desktop */}
           <div className="hidden md:block">
-            <Link href="/onboarding">
+            <Link href="/unete">
               <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-4 lg:px-6 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-200 min-h-[44px]">
                 Únete Ahora
               </Button>
@@ -111,7 +111,7 @@ export default function Navigation() {
                 </a>
               ))}
               <div className="pt-2">
-                <Link href="/onboarding">
+                <Link href="/unete">
                   <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-3 rounded-full shadow-md min-h-[48px]">
                     Únete Ahora
                   </Button>

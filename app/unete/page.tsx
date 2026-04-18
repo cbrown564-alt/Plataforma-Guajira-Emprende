@@ -1,5 +1,5 @@
 import JoinCommunityPage from "../../join-community-page"
 
-export default function JoinPage() {
+export default function UnetePage() {
   return <JoinCommunityPage />
 }

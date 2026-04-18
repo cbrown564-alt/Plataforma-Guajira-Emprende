@@ -1,5 +1,25 @@
 # Plataforma Guajira Emprende
 
+> **v2 — Research prototype (April 2026).** Repositioned from the v1 government-portal mock into a thesis companion: a one-page site demonstrating what a centralized support platform for La Guajira tourism entrepreneurs could look like. It links out to **real, existing** Colombian programs and includes a working `/unete` registration form (Formspree). It is **not** a funded government service, marketplace, or CMS.
+>
+> The v1 sections of this README and `docs/` describe the previous scope and are preserved for historical reference; treat them as out-of-date.
+
+---
+
+## v2 quickstart
+
+```bash
+pnpm install
+cp .env.example .env.local   # then paste your Formspree endpoint
+pnpm dev
+```
+
+**Routes:** `/` (single page with anchors `#inicio`, `#programas`, `#aprender`, `#directorio`, `#contacto`) and `/unete` (registration form).
+
+---
+
+## v1 description (historical)
+
 A government-backed digital platform connecting Wayuu and Guajiran entrepreneurs with funding, training, mentorship, and community resources to build sustainable tourism businesses in La Guajira, Colombia.
 
 Backed by the **Ministerio de Comercio, Industria y Turismo** of Colombia.

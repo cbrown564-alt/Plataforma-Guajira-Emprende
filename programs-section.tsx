@@ -4,225 +4,155 @@ import {
   DollarSign,
   GraduationCap,
   Users,
-  Calendar,
-  CheckCircle,
-  ArrowRight,
   Building2,
-  Lightbulb,
+  Globe,
   HandHeart,
+  ExternalLink,
 } from "lucide-react"
-import Link from "next/link"
+
+type Program = {
+  id: string
+  title: string
+  description: string
+  audience: string
+  fundingType: string
+  source: string
+  url: string
+  Icon: typeof DollarSign
+  accent: string
+}
+
+const programs: Program[] = [
+  {
+    id: "fondo-emprender",
+    title: "Fondo Emprender",
+    description:
+      "Capital semilla no reembolsable del SENA para planes de negocio formulados por aprendices, egresados y profesionales.",
+    audience: "Aprendices y egresados SENA, profesionales recién graduados",
+    fundingType: "Capital semilla no reembolsable",
+    source: "SENA",
+    url: "https://www.fondoemprender.com/",
+    Icon: DollarSign,
+    accent: "text-green-700",
+  },
+  {
+    id: "innpulsa",
+    title: "iNNpulsa Colombia",
+    description:
+      "Convocatorias y programas de la agencia nacional de emprendimiento e innovación, con enfoque en escalamiento y exportación.",
+    audience: "Emprendedores formales con producto en el mercado",
+    fundingType: "Cofinanciación y acompañamiento",
+    source: "iNNpulsa Colombia",
+    url: "https://innpulsacolombia.com/",
+    Icon: Building2,
+    accent: "text-amber-700",
+  },
+  {
+    id: "bancoldex",
+    title: "Microcréditos Bancóldex",
+    description:
+      "Líneas de crédito a través de intermediarios financieros para mipymes, incluyendo el sector turismo.",
+    audience: "Mipymes formalizadas",
+    fundingType: "Crédito",
+    source: "Bancóldex",
+    url: "https://www.bancoldex.com/",
+    Icon: Users,
+    accent: "text-coral-700",
+  },
+  {
+    id: "turismo-comunitario",
+    title: "Turismo Comunitario — MinCIT",
+    description:
+      "Programa del Ministerio de Comercio, Industria y Turismo de fortalecimiento de iniciativas comunitarias.",
+    audience: "Comunidades étnicas y rurales con iniciativa turística",
+    fundingType: "Apoyo técnico y formación",
+    source: "MinCIT",
+    url: "https://www.mincit.gov.co/minturismo",
+    Icon: HandHeart,
+    accent: "text-rose-700",
+  },
+  {
+    id: "procolombia",
+    title: "ProColombia — Turismo",
+    description:
+      "Promoción internacional, ruedas de negocio y capacitaciones para prestadores de servicios turísticos.",
+    audience: "Prestadores con RNT vigente y vocación exportadora",
+    fundingType: "Promoción y networking",
+    source: "ProColombia",
+    url: "https://procolombia.co/turismo",
+    Icon: Globe,
+    accent: "text-turquoise-700",
+  },
+  {
+    id: "sena-formacion",
+    title: "SENA — Formación titulada y complementaria",
+    description:
+      "Cursos gratuitos en turismo, atención al cliente, gastronomía y emprendimiento, presenciales y virtuales.",
+    audience: "Cualquier persona mayor de 14 años",
+    fundingType: "Formación gratuita",
+    source: "SENA",
+    url: "https://oferta.senasofiaplus.edu.co/sofia-oferta/",
+    Icon: GraduationCap,
+    accent: "text-purple-700",
+  },
+]
 
 export default function ProgramsSection() {
-  const programs = [
-    {
-      id: 1,
-      title: "Fondo Emprender Turismo",
-      description: "Financiación hasta $50M para proyectos turísticos sostenibles en La Guajira",
-      type: "Fondo No Reembolsable",
-      deadline: "15 Mar 2024",
-      eligibility: "Jóvenes 18-28 años",
-      icon: DollarSign,
-      iconColor: "text-green-600",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-      accentColor: "bg-green-600",
-      opportunityCount: "3 oportunidades activas",
-    },
-    {
-      id: 2,
-      title: "Escuela de Turismo Wayuu",
-      description: "Programa de formación en turismo cultural y gestión empresarial",
-      type: "Formación Gratuita",
-      deadline: "30 Ene 2024",
-      eligibility: "Comunidades locales",
-      icon: GraduationCap,
-      iconColor: "text-turquoise-600",
-      bgColor: "bg-turquoise-50",
-      borderColor: "border-turquoise-200",
-      accentColor: "bg-turquoise-600",
-      opportunityCount: "5 oportunidades activas",
-    },
-    {
-      id: 3,
-      title: "Microcréditos Bancóldex",
-      description: "Créditos blandos para emprendimientos turísticos con acompañamiento",
-      type: "Microcrédito",
-      deadline: "Convocatoria Abierta",
-      eligibility: "PYMES turísticas",
-      icon: Users,
-      iconColor: "text-coral-600",
-      bgColor: "bg-coral-50",
-      borderColor: "border-coral-200",
-      accentColor: "bg-coral-600",
-      opportunityCount: "2 oportunidades activas",
-    },
-    {
-      id: 4,
-      title: "Incubadora de Turismo",
-      description: "Acompañamiento integral para startups de turismo sostenible",
-      type: "Incubación",
-      deadline: "20 Feb 2024",
-      eligibility: "Emprendedores",
-      icon: Building2,
-      iconColor: "text-amber-600",
-      bgColor: "bg-amber-50",
-      borderColor: "border-amber-200",
-      accentColor: "bg-amber-600",
-      opportunityCount: "4 oportunidades activas",
-    },
-    {
-      id: 5,
-      title: "Innovación Turística",
-      description: "Apoyo para proyectos tecnológicos que transformen el turismo",
-      type: "Capital Semilla",
-      deadline: "10 Abr 2024",
-      eligibility: "Equipos técnicos",
-      icon: Lightbulb,
-      iconColor: "text-purple-600",
-      bgColor: "bg-purple-50",
-      borderColor: "border-purple-200",
-      accentColor: "bg-purple-600",
-      opportunityCount: "1 oportunidad activa",
-    },
-    {
-      id: 6,
-      title: "Turismo Comunitario",
-      description: "Fortalecimiento de iniciativas turísticas comunitarias wayuu",
-      type: "Apoyo Directo",
-      deadline: "Permanente",
-      eligibility: "Comunidades wayuu",
-      icon: HandHeart,
-      iconColor: "text-rose-600",
-      bgColor: "bg-rose-50",
-      borderColor: "border-rose-200",
-      accentColor: "bg-rose-600",
-      opportunityCount: "6 oportunidades activas",
-    },
-  ]
-
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-b from-amber-50/30 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-12 lg:mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-amber-900 mb-4">Programas Disponibles</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-amber-900 mb-4">Programas que ya existen</h2>
           <p className="text-lg text-amber-700 max-w-2xl mx-auto">
-            Descubre todos los programas de financiación, formación y apoyo diseñados para impulsar tu emprendimiento
-            turístico en La Guajira
+            Una selección de programas públicos colombianos relevantes para emprendedores turísticos en La
+            Guajira. Cada tarjeta enlaza al sitio oficial — allí encontrarás convocatorias, plazos y requisitos
+            actualizados.
           </p>
         </div>
 
-        {/* Cards Container */}
-        <div className="relative">
-          {/* Mobile: Horizontal Scroll */}
-          <div className="md:hidden">
-            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
-              {programs.map((program) => (
-                <ProgramCard key={program.id} program={program} />
-              ))}
-            </div>
-            {/* Scroll Indicator */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {programs.map((_, index) => (
-                <div key={index} className="w-2 h-2 rounded-full bg-amber-300 opacity-50" />
-              ))}
-            </div>
-            <p className="text-center text-sm text-amber-600 mt-2">Desliza para ver más programas →</p>
-          </div>
-
-          {/* Desktop: Grid Layout */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {programs.map((program) => (
-              <ProgramCard key={program.id} program={program} />
-            ))}
-          </div>
-        </div>
-
-        {/* View All Button */}
-        <div className="text-center mt-12">
-          <Button
-            variant="outline"
-            className="border-2 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50 font-semibold px-8 py-3 rounded-full"
-          >
-            Ver Todos los Programas
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {programs.map((program) => (
+            <ProgramCard key={program.id} program={program} />
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
-function ProgramCard({ program }: { program: any }) {
-  const IconComponent = program.icon
-
+function ProgramCard({ program }: { program: Program }) {
+  const { Icon } = program
   return (
-    <Card
-      className={`w-80 md:w-full flex-shrink-0 snap-start ${program.borderColor} border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white relative overflow-hidden group`}
-    >
-      {/* Accent stripe */}
-      <div className={`absolute top-0 left-0 right-0 h-1 ${program.accentColor}`} />
-
+    <Card className="border-2 border-amber-100 hover:border-amber-300 hover:shadow-lg transition-all duration-300 bg-white flex flex-col">
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div className={`p-3 rounded-xl ${program.bgColor} group-hover:scale-110 transition-transform duration-300`}>
-            <IconComponent className={`h-6 w-6 ${program.iconColor}`} />
+        <div className="flex items-start justify-between mb-3">
+          <div className={`p-3 rounded-xl bg-amber-50`}>
+            <Icon className={`h-6 w-6 ${program.accent}`} />
           </div>
-          <div className="text-right">
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mb-1">
-              Activo
-            </span>
-            <div className="text-xs text-amber-700 font-medium">{program.opportunityCount}</div>
-          </div>
+          <span className="text-xs text-gray-500 font-medium">{program.source}</span>
         </div>
-        <CardTitle className="text-xl font-bold text-amber-900 mt-4 group-hover:text-turquoise-700 transition-colors duration-300">
-          {program.title}
-        </CardTitle>
-        <p className="text-amber-700 text-sm leading-relaxed">{program.description}</p>
-        <p className="text-amber-600 text-xs mt-2 italic">
-          Este programa incluye varias oportunidades activas para emprendedores turísticos.
-        </p>
+        <CardTitle className="text-xl font-bold text-amber-900">{program.title}</CardTitle>
+        <p className="text-sm text-amber-700 leading-relaxed mt-2">{program.description}</p>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        {/* Program Type */}
-        <div className="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
-          <DollarSign className="h-4 w-4 text-amber-600 flex-shrink-0" />
-          <div>
-            <span className="text-xs text-gray-500 block">Tipo</span>
-            <span className="text-sm font-medium text-amber-800">{program.type}</span>
-          </div>
+      <CardContent className="space-y-3 flex-1">
+        <div>
+          <span className="text-xs text-gray-500 block uppercase tracking-wide">Tipo</span>
+          <span className="text-sm text-amber-800 font-medium">{program.fundingType}</span>
         </div>
-
-        {/* Deadline */}
-        <div className="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
-          <Calendar className="h-4 w-4 text-amber-600 flex-shrink-0" />
-          <div>
-            <span className="text-xs text-gray-500 block">Cierre</span>
-            <span className="text-sm text-amber-700">{program.deadline}</span>
-          </div>
-        </div>
-
-        {/* Eligibility */}
-        <div className="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
-          <CheckCircle className="h-4 w-4 text-amber-600 flex-shrink-0" />
-          <div>
-            <span className="text-xs text-gray-500 block">Dirigido a</span>
-            <span className="text-sm text-amber-700">{program.eligibility}</span>
-          </div>
+        <div>
+          <span className="text-xs text-gray-500 block uppercase tracking-wide">Dirigido a</span>
+          <span className="text-sm text-amber-800">{program.audience}</span>
         </div>
       </CardContent>
 
       <CardFooter className="pt-4">
-        <Link href={`/program/${program.id}`} className="w-full">
-          <Button
-            className={`w-full ${program.accentColor} hover:opacity-90 text-white font-semibold py-2 rounded-lg transition-all duration-200 group-hover:shadow-lg`}
-          >
-            Ver Programa Completo
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+        <a href={program.url} target="_blank" rel="noopener noreferrer" className="w-full">
+          <Button className="w-full bg-amber-900 hover:bg-amber-800 text-white font-semibold py-2 rounded-lg">
+            Ver sitio oficial
+            <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
-        </Link>
+        </a>
       </CardFooter>
     </Card>
   )

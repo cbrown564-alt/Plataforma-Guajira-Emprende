@@ -1,33 +1,29 @@
 import Navigation from "../navigation"
 import HeroSection from "../hero-section"
-import OpportunitiesSection from "../opportunities-section"
 import ProgramsSection from "../programs-section"
+import LearningSection from "../learning-section"
 import DirectorySection from "../directory-section"
 import ContactSection from "../contact-section"
 import Footer from "../footer"
-import WhatsAppButton from "../whatsapp-button"
 
 export default function Page() {
   return (
     <div className="min-h-screen">
       <Navigation />
-      <section id="home">
+      <section id="inicio">
         <HeroSection />
       </section>
-      <section id="opportunities">
-        <OpportunitiesSection />
-      </section>
-      <section id="training">
+      <section id="programas">
         <ProgramsSection />
       </section>
-      <section id="directory">
+      <LearningSection />
+      <section id="directorio">
         <DirectorySection />
       </section>
-      <section id="contact">
+      <section id="contacto">
         <ContactSection />
       </section>
       <Footer />
-      <WhatsAppButton />
     </div>
   )
 }
