@@ -39,8 +39,8 @@ Each phase builds on the previous. Phases 1–3 are prerequisites for real user 
 | Re-enable image optimization (remove `unoptimized: true`) | `next.config.mjs` | Medium |
 | Move section components from project root → `components/sections/` | All `*-section.tsx` files | Medium |
 | Update all import paths after the move above | `app/page.tsx` + detail pages | Medium |
-| Move hard-coded contact/WhatsApp numbers to environment variables | `contact-section.tsx`, `whatsapp-button.tsx`, `join-community-page.tsx` | Medium |
-| Create `.env.example` documenting all required variables | `.env.example` | Medium |
+| ~~Move hard-coded contact/WhatsApp numbers to environment variables~~ | `lib/site-config.ts` + `lib/whatsapp.ts` | ✅ Done |
+| ~~Create `.env.example` documenting all required variables~~ | `.env.example` | ✅ Done |
 
 ---
 

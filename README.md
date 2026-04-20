@@ -118,9 +118,13 @@ pnpm lint     # Run ESLint
 
 ## Environment Variables
 
-No environment variables are required to run the app locally in its current state. Contact info, WhatsApp numbers, and other configuration are currently hard-coded. See [docs/ROADMAP.md](docs/ROADMAP.md) for the plan to move these to environment variables.
+The app runs with no configuration — contact details ship with sensible defaults in `lib/site-config.ts`. For deployments, copy `.env.example` to `.env.local` and override the contact details:
 
-When that migration is complete, a `.env.local` file will be required. Copy `.env.example` (not yet created) and fill in the values.
+```bash
+cp .env.example .env.local
+```
+
+Every value is exposed as `NEXT_PUBLIC_*` and read by `lib/site-config.ts`. The WhatsApp helpers in `lib/whatsapp.ts` are the single entry point for building `wa.me` URLs — components never touch the number directly.
 
 ---
 

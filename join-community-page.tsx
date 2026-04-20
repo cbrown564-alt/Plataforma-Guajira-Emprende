@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Users, MapPin, Mail, MessageCircle, CheckCircle, Heart, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { openWhatsApp } from "@/lib/whatsapp"
+import { siteConfig, whatsappMessages } from "@/lib/site-config"
 
 export default function JoinCommunityPage() {
   const [formData, setFormData] = useState({
@@ -69,12 +71,7 @@ export default function JoinCommunityPage() {
   }
 
   const handleWhatsAppBroadcast = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      `¡Hola! Me acabo de unir a la comunidad de Plataforma Guajira Emprende. Mi nombre es ${formData.nombre} y soy de ${formData.municipio}. Me gustaría unirme a la lista de difusión de WhatsApp para recibir actualizaciones sobre oportunidades y eventos. ¡Gracias!`,
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+    openWhatsApp(whatsappMessages.joinBroadcast(formData.nombre, formData.municipio))
   }
 
   if (isSubmitted) {
@@ -268,7 +265,7 @@ export default function JoinCommunityPage() {
                   value={formData.contacto}
                   onChange={(e) => handleInputChange("contacto", e.target.value)}
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
-                  placeholder="tu@email.com o +57 300 123 4567"
+                  placeholder={`tu@email.com o ${siteConfig.whatsapp.display}`}
                 />
                 <p className="text-xs text-amber-600 mt-1">Puedes usar tu correo electrónico o número de WhatsApp</p>
               </div>

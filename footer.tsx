@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { ExternalLink, Mail, Phone, MapPin } from "lucide-react"
+import { siteConfig } from "@/lib/site-config"
 
 export default function Footer() {
   return (
@@ -25,15 +26,15 @@ export default function Footer() {
             <div className="space-y-2 text-sm text-gray-400">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>info@guajiraemprende.gov.co</span>
+                <span>{siteConfig.contact.email}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span>+57 (5) 123-4567</span>
+                <span>{siteConfig.contact.phone}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>Riohacha, La Guajira, Colombia</span>
+                <span>{siteConfig.contact.address}</span>
               </div>
             </div>
           </div>

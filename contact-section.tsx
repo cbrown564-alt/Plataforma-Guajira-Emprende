@@ -3,59 +3,41 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Building2, Users, Heart } from "lucide-react"
+import { openWhatsApp } from "@/lib/whatsapp"
+import { siteConfig, whatsappMessages } from "@/lib/site-config"
 
 export default function ContactSection() {
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      "¡Hola! Me gustaría obtener más información sobre los programas de emprendimiento turístico en La Guajira.",
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-  }
+  const handleWhatsAppClick = () => openWhatsApp(whatsappMessages.contactSection)
 
   const contactMethods = [
     {
       icon: Phone,
       title: "Teléfono",
-      info: "+57 (5) 123-4567",
-      description: "Lunes a Viernes, 8:00 AM - 5:00 PM",
+      info: siteConfig.contact.phone,
+      description: siteConfig.contact.hours,
       color: "text-turquoise-600",
       bgColor: "bg-turquoise-50",
     },
     {
       icon: Mail,
       title: "Email",
-      info: "info@guajiraemprende.gov.co",
-      description: "Respuesta en 24 horas",
+      info: siteConfig.contact.email,
+      description: siteConfig.contact.responseTime,
       color: "text-coral-600",
       bgColor: "bg-coral-50",
     },
     {
       icon: MessageCircle,
       title: "WhatsApp",
-      info: "+57 300 123 4567",
-      description: "Atención inmediata",
+      info: siteConfig.whatsapp.display,
+      description: siteConfig.contact.whatsappTagline,
       color: "text-green-600",
       bgColor: "bg-green-50",
       action: handleWhatsAppClick,
     },
   ]
 
-  const offices = [
-    {
-      name: "Oficina Principal - Riohacha",
-      address: "Calle 15 #3-25, Centro, Riohacha, La Guajira",
-      hours: "Lunes a Viernes: 8:00 AM - 5:00 PM",
-      services: ["Asesoría presencial", "Talleres de formación", "Registro de proyectos"],
-    },
-    {
-      name: "Punto de Atención - Maicao",
-      address: "Carrera 10 #12-45, Maicao, La Guajira",
-      hours: "Martes y Jueves: 9:00 AM - 4:00 PM",
-      services: ["Asesoría básica", "Información de programas"],
-    },
-  ]
+  const offices = siteConfig.offices
 
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-b from-turquoise-50/30 to-white">
@@ -166,7 +148,7 @@ export default function ContactSection() {
                 <input
                   type="tel"
                   className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
-                  placeholder="+57 300 123 4567"
+                  placeholder={siteConfig.whatsapp.display}
                 />
               </div>
             </div>
