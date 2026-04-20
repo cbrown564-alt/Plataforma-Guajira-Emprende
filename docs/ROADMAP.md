@@ -84,17 +84,19 @@ Add a honeypot field (hidden input with a fake name) to both forms before going 
 
 ## Phase 4 — Content & Data Layer
 
-**Status: Not started**  
+**Status: Complete**  
 **Goal:** Decouple content from code so team members can update opportunities, programs, and businesses without touching component files.
 
-| Task | Notes |
-|---|---|
-| Extract `opportunities` array → `data/opportunities.ts` | Typed with a shared `Opportunity` interface |
-| Extract `programs` array → `data/programs.ts` | Typed with a shared `Program` interface |
-| Extract `businesses` array → `data/businesses.ts` | Typed with a shared `Business` interface |
-| Update components to import from `data/` | No behavior change — pure refactor |
-| (Optional) Migrate to Sanity CMS | For a fully no-code content editing workflow |
-| (Optional) Migrate to Supabase tables | If form data and directory should be unified in one place |
+| Task | Notes | Status |
+|---|---|---|
+| Extract `opportunities` array → `data/opportunities.ts` | Typed with a shared `Opportunity` interface | ✅ Done |
+| Extract `programs` array → `data/programs.ts` | Typed with a shared `Program` interface | ✅ Done |
+| Extract `businesses` array → `data/businesses.ts` | Typed with a shared `Business` interface | ✅ Done |
+| Update components to import from `data/` | Section components and dynamic detail pages | ✅ Done |
+| Wire detail pages to look up by id + `notFound()` | Fixed bug where every detail page showed Fondo Emprender content | ✅ Done |
+| Add `generateStaticParams` + `generateMetadata` on detail routes | 9 opportunity/program pages now pre-render with unique titles | ✅ Done |
+| (Optional) Migrate to Sanity CMS | For a fully no-code content editing workflow | — |
+| (Optional) Migrate to Supabase tables | If form data and directory should be unified in one place | — |
 
 ---
 

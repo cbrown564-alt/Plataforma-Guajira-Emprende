@@ -1,106 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  DollarSign,
-  GraduationCap,
-  Users,
-  Calendar,
-  CheckCircle,
-  ArrowRight,
-  Building2,
-  Lightbulb,
-  HandHeart,
-} from "lucide-react"
+import { DollarSign, Calendar, CheckCircle, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { programs } from "@/data/programs"
+import { opportunities } from "@/data/opportunities"
+import type { Program } from "@/data/types"
 
 export default function ProgramsSection() {
-  const programs = [
-    {
-      id: 1,
-      title: "Fondo Emprender Turismo",
-      description: "Financiación hasta $50M para proyectos turísticos sostenibles en La Guajira",
-      type: "Fondo No Reembolsable",
-      deadline: "15 Mar 2024",
-      eligibility: "Jóvenes 18-28 años",
-      icon: DollarSign,
-      iconColor: "text-green-600",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-      accentColor: "bg-green-600",
-      opportunityCount: "3 oportunidades activas",
-    },
-    {
-      id: 2,
-      title: "Escuela de Turismo Wayuu",
-      description: "Programa de formación en turismo cultural y gestión empresarial",
-      type: "Formación Gratuita",
-      deadline: "30 Ene 2024",
-      eligibility: "Comunidades locales",
-      icon: GraduationCap,
-      iconColor: "text-turquoise-600",
-      bgColor: "bg-turquoise-50",
-      borderColor: "border-turquoise-200",
-      accentColor: "bg-turquoise-600",
-      opportunityCount: "5 oportunidades activas",
-    },
-    {
-      id: 3,
-      title: "Microcréditos Bancóldex",
-      description: "Créditos blandos para emprendimientos turísticos con acompañamiento",
-      type: "Microcrédito",
-      deadline: "Convocatoria Abierta",
-      eligibility: "PYMES turísticas",
-      icon: Users,
-      iconColor: "text-coral-600",
-      bgColor: "bg-coral-50",
-      borderColor: "border-coral-200",
-      accentColor: "bg-coral-600",
-      opportunityCount: "2 oportunidades activas",
-    },
-    {
-      id: 4,
-      title: "Incubadora de Turismo",
-      description: "Acompañamiento integral para startups de turismo sostenible",
-      type: "Incubación",
-      deadline: "20 Feb 2024",
-      eligibility: "Emprendedores",
-      icon: Building2,
-      iconColor: "text-amber-600",
-      bgColor: "bg-amber-50",
-      borderColor: "border-amber-200",
-      accentColor: "bg-amber-600",
-      opportunityCount: "4 oportunidades activas",
-    },
-    {
-      id: 5,
-      title: "Innovación Turística",
-      description: "Apoyo para proyectos tecnológicos que transformen el turismo",
-      type: "Capital Semilla",
-      deadline: "10 Abr 2024",
-      eligibility: "Equipos técnicos",
-      icon: Lightbulb,
-      iconColor: "text-purple-600",
-      bgColor: "bg-purple-50",
-      borderColor: "border-purple-200",
-      accentColor: "bg-purple-600",
-      opportunityCount: "1 oportunidad activa",
-    },
-    {
-      id: 6,
-      title: "Turismo Comunitario",
-      description: "Fortalecimiento de iniciativas turísticas comunitarias wayuu",
-      type: "Apoyo Directo",
-      deadline: "Permanente",
-      eligibility: "Comunidades wayuu",
-      icon: HandHeart,
-      iconColor: "text-rose-600",
-      bgColor: "bg-rose-50",
-      borderColor: "border-rose-200",
-      accentColor: "bg-rose-600",
-      opportunityCount: "6 oportunidades activas",
-    },
-  ]
-
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-b from-amber-50/30 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,8 +30,8 @@ export default function ProgramsSection() {
             </div>
             {/* Scroll Indicator */}
             <div className="flex justify-center mt-4 space-x-2">
-              {programs.map((_, index) => (
-                <div key={index} className="w-2 h-2 rounded-full bg-amber-300 opacity-50" />
+              {programs.map((program) => (
+                <div key={program.id} className="w-2 h-2 rounded-full bg-amber-300 opacity-50" />
               ))}
             </div>
             <p className="text-center text-sm text-amber-600 mt-2">Desliza para ver más programas →</p>
@@ -154,8 +60,15 @@ export default function ProgramsSection() {
   )
 }
 
-function ProgramCard({ program }: { program: any }) {
+function ProgramCard({ program }: { program: Program }) {
   const IconComponent = program.icon
+  const opportunityCount = opportunities.filter((o) => o.programId === program.id).length
+  const opportunityLabel =
+    opportunityCount === 0
+      ? "Sin oportunidades activas"
+      : opportunityCount === 1
+        ? "1 oportunidad activa"
+        : `${opportunityCount} oportunidades activas`
 
   return (
     <Card
@@ -173,7 +86,7 @@ function ProgramCard({ program }: { program: any }) {
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mb-1">
               Activo
             </span>
-            <div className="text-xs text-amber-700 font-medium">{program.opportunityCount}</div>
+            <div className="text-xs text-amber-700 font-medium">{opportunityLabel}</div>
           </div>
         </div>
         <CardTitle className="text-xl font-bold text-amber-900 mt-4 group-hover:text-turquoise-700 transition-colors duration-300">

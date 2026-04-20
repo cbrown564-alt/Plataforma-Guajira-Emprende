@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -19,59 +18,12 @@ import {
   Target,
 } from "lucide-react"
 import Link from "next/link"
+import { notFound } from "next/navigation"
+import { getOpportunityById } from "@/data/opportunities"
 
-export default function OpportunityDetailPage({ id }: { id?: string }) {
-  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false)
-
-  const opportunity = {
-    id: id || "1",
-    title: "Fondo Emprender Turismo: Convocatoria 2024",
-    programName: "Fondo Emprender Turismo",
-    status: "Activo",
-    deadline: "15 Marzo 2024",
-    eligibility: "Jóvenes de 18–28 años",
-    summary:
-      "Financiación hasta $50 millones para proyectos turísticos sostenibles en La Guajira. Este fondo busca impulsar emprendimientos innovadores que fortalezcan el turismo cultural y preserven las tradiciones wayuu.",
-    supportType: "Fondo No Reembolsable",
-    requirements: [
-      "Cédula de ciudadanía colombiana",
-      "Plan de negocio detallado",
-      "Certificado de estudios (mínimo bachillerato)",
-      "Carta de intención firmada",
-      "Presupuesto del proyecto",
-      "Certificación de residencia en La Guajira",
-    ],
-    applicationSteps: [
-      "Registrarse en la plataforma oficial",
-      "Completar el formulario de postulación",
-      "Cargar todos los documentos requeridos",
-      "Enviar la propuesta antes de la fecha límite",
-      "Esperar confirmación de recepción",
-      "Participar en entrevista (si es seleccionado)",
-    ],
-    faqs: [
-      {
-        question: "¿Qué pasa si no cumplo todos los requisitos?",
-        answer:
-          "Puedes aplicar si cumples al menos el 80% de los requisitos. El comité evaluará cada caso individualmente y podrá solicitar documentación adicional.",
-      },
-      {
-        question: "¿Puedo aplicar si ya tengo un negocio establecido?",
-        answer:
-          "Sí, siempre y cuando tu negocio tenga menos de 2 años de operación y esté relacionado con turismo sostenible en La Guajira.",
-      },
-      {
-        question: "¿Cuánto tiempo toma el proceso de evaluación?",
-        answer:
-          "El proceso completo toma aproximadamente 45 días hábiles desde el cierre de la convocatoria hasta la publicación de resultados.",
-      },
-      {
-        question: "¿Necesito tener experiencia previa en turismo?",
-        answer:
-          "No es obligatorio, pero se valorará positivamente. Ofrecemos programas de formación complementarios para fortalecer las capacidades empresariales.",
-      },
-    ],
-  }
+export default function OpportunityDetailPage({ id }: { id: string }) {
+  const opportunity = getOpportunityById(id)
+  if (!opportunity) notFound()
 
   const handleWhatsAppClick = () => {
     const phoneNumber = "573001234567"
@@ -82,13 +34,26 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
     window.open(whatsappUrl, "_blank", "noopener,noreferrer")
   }
 
+  const statusBadgeClass =
+    opportunity.status === "Activo"
+      ? "bg-green-100 text-green-800 border-2 border-green-200"
+      : opportunity.status === "Permanente"
+        ? "bg-amber-100 text-amber-800 border-2 border-amber-200"
+        : "bg-gray-100 text-gray-800 border-2 border-gray-200"
+  const statusDotClass =
+    opportunity.status === "Activo"
+      ? "bg-green-500"
+      : opportunity.status === "Permanente"
+        ? "bg-amber-500"
+        : "bg-gray-500"
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/30 to-white">
       {/* Navigation Header */}
       <div className="bg-white border-b border-amber-200/50 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <Link
-            href="/"
+            href="/#opportunities"
             className="flex items-center space-x-2 text-amber-800 hover:text-turquoise-700 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
@@ -104,9 +69,12 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             <CardHeader className="pb-6">
               {/* Program Tag */}
               <div className="mb-3">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-turquoise-100 text-turquoise-800 border border-turquoise-200">
+                <Link
+                  href={`/program/${opportunity.programId}`}
+                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-turquoise-100 text-turquoise-800 border border-turquoise-200 hover:bg-turquoise-200 transition-colors"
+                >
                   Parte del programa: {opportunity.programName}
-                </span>
+                </Link>
               </div>
 
               {/* Title and Status */}
@@ -115,8 +83,8 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
                   <h1 className="text-2xl lg:text-3xl font-bold text-amber-900 leading-tight">{opportunity.title}</h1>
                 </div>
                 <div className="flex-shrink-0">
-                  <span className="inline-flex items-center px-3 py-2 rounded-full text-sm font-bold bg-green-100 text-green-800 border-2 border-green-200">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                  <span className={`inline-flex items-center px-3 py-2 rounded-full text-sm font-bold ${statusBadgeClass}`}>
+                    <div className={`w-2 h-2 ${statusDotClass} rounded-full mr-2 animate-pulse`} />
                     {opportunity.status}
                   </span>
                 </div>
@@ -164,7 +132,7 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             </CardHeader>
             <CardContent>
               <p className="text-green-800 font-semibold">{opportunity.supportType}</p>
-              <p className="text-sm text-green-700 mt-1">Hasta $50 millones COP</p>
+              <p className="text-sm text-green-700 mt-1">{opportunity.supportAmount}</p>
             </CardContent>
           </Card>
 
@@ -180,7 +148,9 @@ export default function OpportunityDetailPage({ id }: { id?: string }) {
             </CardHeader>
             <CardContent>
               <p className="text-amber-800 font-semibold">Cierre: {opportunity.deadline}</p>
-              <p className="text-sm text-amber-700 mt-1">Resultados: 30 días después</p>
+              {opportunity.resultsAt && (
+                <p className="text-sm text-amber-700 mt-1">Resultados: {opportunity.resultsAt}</p>
+              )}
             </CardContent>
           </Card>
         </div>
