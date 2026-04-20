@@ -2,16 +2,14 @@
 
 import { MessageCircle } from "lucide-react"
 
+import { whatsappLink } from "@/lib/site-config"
+
+const HELP_MESSAGE =
+  "¡Hola! 👋 Necesito ayuda con los programas de financiación de Plataforma Guajira Emprende. ¿Podrían orientarme sobre las oportunidades disponibles?"
+
 export default function WhatsAppButton() {
-  const phoneNumber = "573001234567" // Colombian WhatsApp number format
-  const message = encodeURIComponent(
-    "¡Hola! 👋 Necesito ayuda con los programas de financiación de Plataforma Guajira Emprende. ¿Podrían orientarme sobre las oportunidades disponibles?",
-  )
-
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-
   const handleClick = () => {
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+    window.open(whatsappLink(HELP_MESSAGE), "_blank", "noopener,noreferrer")
   }
 
   return (

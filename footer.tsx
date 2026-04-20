@@ -1,6 +1,8 @@
 import Image from "next/image"
 import { ExternalLink, Mail, Phone, MapPin } from "lucide-react"
 
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/site-config"
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
@@ -25,11 +27,13 @@ export default function Footer() {
             <div className="space-y-2 text-sm text-gray-400">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>info@guajiraemprende.gov.co</span>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-turquoise-300 transition-colors">
+                  {CONTACT_EMAIL}
+                </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span>+57 (5) 123-4567</span>
+                <span>{CONTACT_PHONE}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />

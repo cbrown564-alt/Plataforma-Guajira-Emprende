@@ -19,19 +19,20 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+
 import { getOpportunityById } from "@/data/opportunities"
+import { CONTACT_PHONE, SUPPORT_EMAIL, whatsappLink } from "@/lib/site-config"
 
 export default function OpportunityDetailPage({ id }: { id: string }) {
   const opportunity = getOpportunityById(id)
   if (!opportunity) notFound()
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      `¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.title}". ¿Podrían ayudarme?`,
+    window.open(
+      whatsappLink(`¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.title}". ¿Podrían ayudarme?`),
+      "_blank",
+      "noopener,noreferrer",
     )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
   }
 
   const statusBadgeClass =
@@ -253,14 +254,14 @@ export default function OpportunityDetailPage({ id }: { id: string }) {
                 <Phone className="h-5 w-5 text-coral-600" />
                 <div>
                   <span className="text-xs text-coral-600 block">Teléfono</span>
-                  <span className="text-sm font-medium text-coral-900">+57 (5) 123-4567</span>
+                  <span className="text-sm font-medium text-coral-900">{CONTACT_PHONE}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-coral-200">
                 <Mail className="h-5 w-5 text-coral-600" />
                 <div>
                   <span className="text-xs text-coral-600 block">Email</span>
-                  <span className="text-sm font-medium text-coral-900">ayuda@guajiraemprende.gov.co</span>
+                  <span className="text-sm font-medium text-coral-900">{SUPPORT_EMAIL}</span>
                 </div>
               </div>
             </div>

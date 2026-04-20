@@ -1,44 +1,111 @@
 "use client"
 
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "sonner"
+import {
+  Building2,
+  Clock,
+  Heart,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Send,
+  Users,
+} from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Building2, Users, Heart } from "lucide-react"
+import {
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  WHATSAPP_NUMBER,
+  whatsappLink,
+} from "@/lib/site-config"
+import { contactFormSchema, type ContactFormValues } from "@/lib/schemas"
+
+const WHATSAPP_PRESET_MESSAGE =
+  "¡Hola! Me gustaría obtener más información sobre los programas de emprendimiento turístico en La Guajira."
 
 export default function ContactSection() {
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      "¡Hola! Me gustaría obtener más información sobre los programas de emprendimiento turístico en La Guajira.",
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+  const [submitted, setSubmitted] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      website: "",
+    },
+  })
+
+  const openWhatsApp = () => {
+    window.open(whatsappLink(WHATSAPP_PRESET_MESSAGE), "_blank", "noopener,noreferrer")
   }
+
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
+      const data = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+      }
+      if (!response.ok || !data.ok) {
+        toast.error(
+          data.error ??
+            "No pudimos enviar tu mensaje. Intenta de nuevo o escríbenos por WhatsApp.",
+        )
+        return
+      }
+      toast.success("¡Mensaje enviado! Te responderemos muy pronto.")
+      reset()
+      setSubmitted(true)
+    } catch {
+      toast.error("Problema de conexión. Revisa tu internet e intenta de nuevo.")
+    }
+  })
 
   const contactMethods = [
     {
       icon: Phone,
       title: "Teléfono",
-      info: "+57 (5) 123-4567",
+      info: CONTACT_PHONE,
       description: "Lunes a Viernes, 8:00 AM - 5:00 PM",
       color: "text-turquoise-600",
       bgColor: "bg-turquoise-50",
+      href: `tel:${CONTACT_PHONE.replace(/[^\d+]/g, "")}`,
     },
     {
       icon: Mail,
       title: "Email",
-      info: "info@guajiraemprende.gov.co",
+      info: CONTACT_EMAIL,
       description: "Respuesta en 24 horas",
       color: "text-coral-600",
       bgColor: "bg-coral-50",
+      href: `mailto:${CONTACT_EMAIL}`,
     },
     {
       icon: MessageCircle,
       title: "WhatsApp",
-      info: "+57 300 123 4567",
+      info: `+${WHATSAPP_NUMBER}`,
       description: "Atención inmediata",
       color: "text-green-600",
       bgColor: "bg-green-50",
-      action: handleWhatsAppClick,
+      action: openWhatsApp,
     },
   ]
 
@@ -71,13 +138,14 @@ export default function ContactSection() {
 
         {/* Contact Methods */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {contactMethods.map((method, index) => {
+          {contactMethods.map((method) => {
             const IconComponent = method.icon
+            const isAction = Boolean(method.action)
             return (
               <Card
-                key={index}
+                key={method.title}
                 className={`border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ${
-                  method.action ? "cursor-pointer" : ""
+                  isAction || method.href ? "cursor-pointer" : ""
                 }`}
                 onClick={method.action}
               >
@@ -88,9 +156,15 @@ export default function ContactSection() {
                   <CardTitle className="text-xl font-bold text-amber-900">{method.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="font-semibold text-gray-900 mb-2">{method.info}</p>
+                  {method.href ? (
+                    <a href={method.href} className="font-semibold text-gray-900 mb-2 block hover:text-turquoise-700">
+                      {method.info}
+                    </a>
+                  ) : (
+                    <p className="font-semibold text-gray-900 mb-2">{method.info}</p>
+                  )}
                   <p className="text-sm text-gray-600">{method.description}</p>
-                  {method.action && (
+                  {isAction && (
                     <Button
                       className="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-full"
                       onClick={method.action}
@@ -108,8 +182,8 @@ export default function ContactSection() {
         <div className="mb-12">
           <h3 className="text-2xl font-bold text-amber-900 text-center mb-8">Nuestras Oficinas</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {offices.map((office, index) => (
-              <Card key={index} className="border border-gray-200">
+            {offices.map((office) => (
+              <Card key={office.name} className="border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-amber-900 flex items-center">
                     <Building2 className="h-6 w-6 mr-3 text-turquoise-600" />
@@ -128,8 +202,8 @@ export default function ContactSection() {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Servicios disponibles:</h4>
                     <ul className="space-y-1">
-                      {office.services.map((service, serviceIndex) => (
-                        <li key={serviceIndex} className="text-sm text-gray-600 flex items-center">
+                      {office.services.map((service) => (
+                        <li key={service} className="text-sm text-gray-600 flex items-center">
                           <div className="w-2 h-2 bg-turquoise-500 rounded-full mr-2 flex-shrink-0" />
                           {service}
                         </li>
@@ -149,47 +223,113 @@ export default function ContactSection() {
               <Send className="h-6 w-6 mr-3" />
               Envíanos un Mensaje Rápido
             </CardTitle>
-            <p className="text-amber-700 text-center">Déjanos tu consulta y nos pondremos en contacto contigo pronto</p>
+            <p className="text-amber-700 text-center">
+              {submitted
+                ? "Gracias por escribirnos. Revisaremos tu mensaje y te responderemos pronto."
+                : "Déjanos tu consulta y nos pondremos en contacto contigo pronto"}
+            </p>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-amber-800 mb-2">Nombre</label>
+          <CardContent>
+            <form onSubmit={onSubmit} className="space-y-4" noValidate>
+              {/* Honeypot: hidden from users, bots will happily fill it in. */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="contact-website">Sitio web</label>
                 <input
+                  id="contact-website"
                   type="text"
-                  className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
-                  placeholder="Tu nombre completo"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  {...register("website")}
                 />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="contact-name" className="block text-sm font-medium text-amber-800 mb-2">
+                    Nombre *
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    autoComplete="name"
+                    aria-invalid={Boolean(errors.name)}
+                    className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
+                    placeholder="Tu nombre completo"
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p className="text-sm text-coral-700 mt-1">{errors.name.message}</p>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="contact-phone" className="block text-sm font-medium text-amber-800 mb-2">
+                    Teléfono
+                  </label>
+                  <input
+                    id="contact-phone"
+                    type="tel"
+                    autoComplete="tel"
+                    aria-invalid={Boolean(errors.phone)}
+                    className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
+                    placeholder="+57 300 123 4567"
+                    {...register("phone")}
+                  />
+                  {errors.phone && (
+                    <p className="text-sm text-coral-700 mt-1">{errors.phone.message}</p>
+                  )}
+                </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-amber-800 mb-2">Teléfono</label>
+                <label htmlFor="contact-email" className="block text-sm font-medium text-amber-800 mb-2">
+                  Email *
+                </label>
                 <input
-                  type="tel"
+                  id="contact-email"
+                  type="email"
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.email)}
                   className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
-                  placeholder="+57 300 123 4567"
+                  placeholder="tu@email.com"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <p className="text-sm text-coral-700 mt-1">{errors.email.message}</p>
+                )}
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-amber-800 mb-2">Email</label>
-              <input
-                type="email"
-                className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
-                placeholder="tu@email.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-amber-800 mb-2">Mensaje</label>
-              <textarea
-                rows={4}
-                className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent resize-none"
-                placeholder="Cuéntanos sobre tu proyecto o consulta..."
-              />
-            </div>
-            <Button className="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white font-semibold py-3 rounded-lg">
-              Enviar Mensaje
-              <Send className="ml-2 h-4 w-4" />
-            </Button>
+              <div>
+                <label htmlFor="contact-message" className="block text-sm font-medium text-amber-800 mb-2">
+                  Mensaje *
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  aria-invalid={Boolean(errors.message)}
+                  className="w-full px-3 py-2 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent resize-none"
+                  placeholder="Cuéntanos sobre tu proyecto o consulta..."
+                  {...register("message")}
+                />
+                {errors.message && (
+                  <p className="text-sm text-coral-700 mt-1">{errors.message.message}</p>
+                )}
+              </div>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white font-semibold py-3 rounded-lg"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    Enviar Mensaje
+                    <Send className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </form>
           </CardContent>
         </Card>
 
@@ -217,7 +357,7 @@ export default function ContactSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={handleWhatsAppClick}
+                  onClick={openWhatsApp}
                   className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-full"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
