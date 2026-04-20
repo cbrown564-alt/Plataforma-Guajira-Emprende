@@ -21,6 +21,7 @@ The primary page is a long-form landing page composed of modular sections. Two s
 | `/onboarding` | `app/onboarding/page.tsx` → `onboarding-page.tsx` | Startup readiness checklist |
 | `/opportunity/[id]` | `app/opportunity/[id]/page.tsx` → `opportunity-detail-page.tsx` | Opportunity detail (id 1–3) |
 | `/program/[id]` | `app/program/[id]/page.tsx` → `program-detail-page.tsx` | Program detail (id 1–6) |
+| `/business/[id]` | `app/business/[id]/page.tsx` → `business-detail-page.tsx` | Business directory detail (8 listings) with `LocalBusiness` JSON-LD |
 
 The homepage uses anchor links (`#opportunities`, `#training`, `#directory`, `#contact`) for in-page navigation via the fixed `<Navigation>` bar.
 

@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, MapPin, Phone, Mail, ExternalLink, Star, ArrowRight } from "lucide-react"
+import { Building2, MapPin, Phone, Mail, ExternalLink, Star, ArrowRight, MessageCircle } from "lucide-react"
+import Link from "next/link"
 import { businesses } from "@/data/businesses"
-import type { BusinessCategory } from "@/data/types"
+import type { Business, BusinessCategory } from "@/data/types"
 
 type CategoryFilter = "Todos" | BusinessCategory
 
@@ -78,81 +79,7 @@ export default function DirectorySection() {
         {/* Featured Businesses */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {filteredBusinesses.length > 0 ? (
-            filteredBusinesses.map((business) => (
-              <Card
-                key={business.id}
-                className="border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                <div className="aspect-video bg-gray-100 relative">
-                  <img
-                    src={business.image || "/placeholder.svg"}
-                    alt={business.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-amber-800">
-                      {business.category}
-                    </span>
-                  </div>
-                </div>
-
-                <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-xl font-bold text-amber-900 mb-2">{business.name}</CardTitle>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
-                        <MapPin className="h-4 w-4" />
-                        <span>{business.location}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm font-medium text-gray-700">{business.rating}</span>
-                      <span className="text-xs text-gray-500">({business.reviews})</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">{business.description}</p>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {business.tags.map((tag, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Contact Info */}
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center space-x-2 text-gray-600">
-                      <Phone className="h-4 w-4" />
-                      <span>{business.contact.phone}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-gray-600">
-                      <Mail className="h-4 w-4" />
-                      <span>{business.contact.email}</span>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex space-x-2 pt-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Visitar Web
-                    </Button>
-                    <Button size="sm" className="flex-1 bg-coral-500 hover:bg-coral-600 text-white">
-                      Contactar
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+            filteredBusinesses.map((business) => <BusinessCard key={business.id} business={business} />)
           ) : (
             <div className="col-span-full text-center py-12">
               <div className="text-gray-400 mb-4">
@@ -213,5 +140,126 @@ export default function DirectorySection() {
         </div>
       </div>
     </section>
+  )
+}
+
+function buildWebsiteUrl(raw: string): string {
+  if (!raw) return "#"
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw
+  return `https://${raw}`
+}
+
+function buildWhatsAppUrl(business: Business): string {
+  const fallback = business.contact.phone.replace(/[^\d]/g, "")
+  const number = business.contact.whatsapp || fallback
+  const message = encodeURIComponent(
+    `¡Hola ${business.name}! Los encontré en Guajira Emprende y quiero saber más.`,
+  )
+  return `https://wa.me/${number}?text=${message}`
+}
+
+function BusinessCard({ business }: { business: Business }) {
+  return (
+    <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col">
+      <Link href={`/business/${business.id}`} className="block group">
+        <div className="aspect-video bg-gray-100 relative">
+          <img
+            src={business.image || "/placeholder.svg"}
+            alt={business.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute top-4 left-4">
+            <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-amber-800">
+              {business.category}
+            </span>
+          </div>
+        </div>
+      </Link>
+
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <Link href={`/business/${business.id}`}>
+              <CardTitle className="text-xl font-bold text-amber-900 mb-2 hover:text-turquoise-700 transition-colors">
+                {business.name}
+              </CardTitle>
+            </Link>
+            <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+              <MapPin className="h-4 w-4" />
+              <span>{business.location}</span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Star className="h-4 w-4 text-yellow-500 fill-current" />
+            <span className="text-sm font-medium text-gray-700">{business.rating}</span>
+            <span className="text-xs text-gray-500">({business.reviews})</span>
+          </div>
+        </div>
+        <p className="text-gray-700 text-sm leading-relaxed">{business.description}</p>
+      </CardHeader>
+
+      <CardContent className="space-y-4 mt-auto">
+        <div className="flex flex-wrap gap-2">
+          {business.tags.map((tag) => (
+            <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center space-x-2 text-gray-600">
+            <Phone className="h-4 w-4" />
+            <span>{business.contact.phone}</span>
+          </div>
+          <div className="flex items-center space-x-2 text-gray-600">
+            <Mail className="h-4 w-4" />
+            <span className="truncate">{business.contact.email}</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-2 pt-2">
+          <Link href={`/business/${business.id}`} className="flex-1">
+            <Button
+              size="sm"
+              className="w-full bg-turquoise-600 hover:bg-turquoise-700 text-white font-semibold"
+            >
+              Ver Detalles
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </Link>
+          <a
+            href={buildWhatsAppUrl(business)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1"
+            aria-label={`Escribir a ${business.name} por WhatsApp`}
+          >
+            <Button size="sm" className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold">
+              <MessageCircle className="h-4 w-4 mr-2" />
+              WhatsApp
+            </Button>
+          </a>
+          {business.contact.website && (
+            <a
+              href={buildWebsiteUrl(business.contact.website)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sm:w-auto"
+              aria-label={`Visitar sitio web de ${business.name}`}
+            >
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50"
+              >
+                <ExternalLink className="h-4 w-4" />
+                <span className="sr-only">Visitar sitio web</span>
+              </Button>
+            </a>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }

@@ -82,14 +82,22 @@ export interface Business {
   name: string
   category: BusinessCategory
   location: string
+  municipality?: string
   description: string
+  longDescription?: string
   contact: {
     phone: string
     email: string
     website: string
+    whatsapp?: string
   }
   rating: number
   reviews: number
   image: string
   tags: string[]
+  services?: string[]
+  highlights?: string[]
+  hours?: string
+  founded?: string
+  priceRange?: string
 }

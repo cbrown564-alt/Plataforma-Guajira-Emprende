@@ -111,7 +111,7 @@ Add a honeypot field (hidden input with a fake name) to both forms before going 
 | Per-page metadata | Dynamic `generateMetadata` on opportunity and program detail pages |
 | Sitemap | `app/sitemap.ts` — list all static and dynamic routes |
 | `robots.txt` | Allow production, block staging preview URLs |
-| JSON-LD structured data | `LocalBusiness` schema on directory cards |
+| JSON-LD structured data | `LocalBusiness` schema on `/business/[id]` detail pages (✅ done) — extend to directory cards |
 | Lazy load below-fold sections | `next/dynamic` with `ssr: false` for DirectorySection and ContactSection |
 | Audit and remove unused dependencies | `recharts`, `embla-carousel-react`, and unused Radix UI packages |
 | Add a web font | Inter or a regional Spanish-language typeface via `next/font` |
