@@ -20,7 +20,7 @@ export const programs: Program[] = [
     typeColor: "bg-green-100 text-green-800 border-green-200",
     overview:
       "El Fondo Emprender Turismo es una iniciativa del gobierno colombiano diseñada para fortalecer el ecosistema turístico de La Guajira. Apoyamos proyectos innovadores que preserven nuestra cultura wayuu mientras generan oportunidades económicas sostenibles para las comunidades locales.",
-    deadline: "15 Mar 2024",
+    deadline: "30 Jun 2026",
     eligibility: "Jóvenes 18-28 años",
     icon: DollarSign,
     iconColor: "text-green-600",
@@ -28,8 +28,8 @@ export const programs: Program[] = [
     borderColor: "border-green-200",
     accentColor: "bg-green-600",
     stats: {
-      beneficiaries: "500+ emprendedores",
-      investment: "$2.5B COP",
+      beneficiaries: "520+ emprendedores",
+      investment: "$3.1B COP",
     },
     targetAudience: [
       { label: "Jóvenes 18-28 años", icon: Users, color: "bg-turquoise-100 text-turquoise-800" },
@@ -72,7 +72,7 @@ export const programs: Program[] = [
     typeColor: "bg-turquoise-100 text-turquoise-800 border-turquoise-200",
     overview:
       "La Escuela de Turismo Wayuu combina saberes ancestrales con herramientas modernas de gestión empresarial. Durante 6 meses, los participantes desarrollan competencias en turismo cultural, liderazgo comunitario y operación de experiencias auténticas que respetan la cosmovisión wayuu.",
-    deadline: "30 Ene 2024",
+    deadline: "15 Ago 2026",
     eligibility: "Comunidades locales",
     icon: GraduationCap,
     iconColor: "text-turquoise-600",
@@ -80,8 +80,8 @@ export const programs: Program[] = [
     borderColor: "border-turquoise-200",
     accentColor: "bg-turquoise-600",
     stats: {
-      beneficiaries: "300+ egresados",
-      investment: "$1.2B COP",
+      beneficiaries: "410+ egresados",
+      investment: "$1.7B COP",
     },
     targetAudience: [
       { label: "Miembros de comunidades wayuu", icon: Heart, color: "bg-amber-100 text-amber-800" },
@@ -132,8 +132,8 @@ export const programs: Program[] = [
     borderColor: "border-coral-200",
     accentColor: "bg-coral-600",
     stats: {
-      beneficiaries: "180+ negocios apoyados",
-      investment: "$4.8B COP",
+      beneficiaries: "240+ negocios apoyados",
+      investment: "$6.4B COP",
     },
     targetAudience: [
       { label: "PYMES turísticas formales", icon: Target, color: "bg-coral-100 text-coral-800" },
@@ -176,7 +176,7 @@ export const programs: Program[] = [
     typeColor: "bg-amber-100 text-amber-800 border-amber-200",
     overview:
       "La Incubadora de Turismo es un programa de 9 meses que acompaña a startups en etapa temprana a validar su modelo de negocio, conseguir sus primeros clientes y prepararse para levantar capital. Ofrecemos mentoría, espacio de coworking en Riohacha y acceso a una red de inversionistas especializados en turismo.",
-    deadline: "20 Feb 2024",
+    deadline: "28 Feb 2027",
     eligibility: "Emprendedores",
     icon: Building2,
     iconColor: "text-amber-600",
@@ -184,8 +184,8 @@ export const programs: Program[] = [
     borderColor: "border-amber-200",
     accentColor: "bg-amber-600",
     stats: {
-      beneficiaries: "45 startups incubadas",
-      investment: "$800M COP",
+      beneficiaries: "62 startups incubadas",
+      investment: "$1.1B COP",
     },
     targetAudience: [
       { label: "Startups early-stage", icon: Lightbulb, color: "bg-amber-100 text-amber-800" },
@@ -228,7 +228,7 @@ export const programs: Program[] = [
     typeColor: "bg-purple-100 text-purple-800 border-purple-200",
     overview:
       "Innovación Turística financia proyectos que aplican tecnología para transformar experiencias turísticas en La Guajira. Apoyamos plataformas digitales, herramientas de gestión, experiencias inmersivas y soluciones que conecten a visitantes con emprendimientos locales de forma sostenible.",
-    deadline: "10 Abr 2024",
+    deadline: "31 Ago 2026",
     eligibility: "Equipos técnicos",
     icon: Lightbulb,
     iconColor: "text-purple-600",
@@ -236,8 +236,8 @@ export const programs: Program[] = [
     borderColor: "border-purple-200",
     accentColor: "bg-purple-600",
     stats: {
-      beneficiaries: "12 proyectos financiados",
-      investment: "$600M COP",
+      beneficiaries: "18 proyectos financiados",
+      investment: "$900M COP",
     },
     targetAudience: [
       { label: "Equipos con perfil técnico", icon: Lightbulb, color: "bg-purple-100 text-purple-800" },
@@ -288,8 +288,8 @@ export const programs: Program[] = [
     borderColor: "border-rose-200",
     accentColor: "bg-rose-600",
     stats: {
-      beneficiaries: "85 rancherías",
-      investment: "$1.6B COP",
+      beneficiaries: "112 rancherías",
+      investment: "$2.2B COP",
     },
     targetAudience: [
       { label: "Rancherías wayuu", icon: Heart, color: "bg-rose-100 text-rose-800" },
