@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, Search, X } from "lucide-react"
 import Link from "next/link"
+import { openCommandPalette } from "@/components/command-palette"
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMac, setIsMac] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,8 +19,19 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (typeof navigator !== "undefined") {
+      setIsMac(/Mac|iPhone|iPod|iPad/.test(navigator.platform))
+    }
+  }, [])
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const openSearch = () => {
+    setIsMenuOpen(false)
+    openCommandPalette()
   }
 
   const navLinks = [
@@ -70,8 +83,31 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button - Desktop */}
-          <div className="hidden md:block">
+          {/* Right side actions - Desktop */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            <button
+              type="button"
+              onClick={openSearch}
+              aria-label="Buscar en Guajira Emprende"
+              className={`flex items-center gap-2 rounded-full px-3 lg:px-4 py-2 text-sm transition-all duration-200 min-h-[44px] border ${
+                isScrolled
+                  ? "border-border bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted"
+                  : "border-white/30 bg-white/10 text-white/90 hover:bg-white/20 hover:text-white backdrop-blur-sm"
+              }`}
+            >
+              <Search className="h-4 w-4" />
+              <span className="hidden lg:inline">Buscar…</span>
+              <kbd
+                className={`ml-2 hidden lg:inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[10px] font-medium ${
+                  isScrolled
+                    ? "border-border bg-background text-muted-foreground"
+                    : "border-white/30 bg-white/10 text-white/80"
+                }`}
+              >
+                <span className="text-[11px]">{isMac ? "⌘" : "Ctrl"}</span>
+                <span>K</span>
+              </kbd>
+            </button>
             <Link href="/onboarding">
               <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-4 lg:px-6 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-200 min-h-[44px]">
                 Únete Ahora
@@ -79,15 +115,29 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile buttons */}
+          <div className="md:hidden flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={openSearch}
+              aria-label="Buscar"
+              className={`min-h-[44px] min-w-[44px] ${
+                isScrolled
+                  ? "text-foreground hover:text-primary hover:bg-muted"
+                  : "text-white hover:text-white hover:bg-white/10"
+              }`}
+            >
+              <Search className="h-6 w-6" />
+            </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleMenu}
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               className={`min-h-[44px] min-w-[44px] ${
-                isScrolled 
-                  ? "text-foreground hover:text-primary hover:bg-muted" 
+                isScrolled
+                  ? "text-foreground hover:text-primary hover:bg-muted"
                   : "text-white hover:text-white hover:bg-white/10"
               }`}
             >
