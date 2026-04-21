@@ -2,6 +2,20 @@ import type { LucideIcon } from "lucide-react"
 
 export type OpportunityStatus = "Activo" | "Permanente" | "Cerrado"
 
+export type AudienceKey =
+  | "joven"
+  | "wayuu"
+  | "pyme"
+  | "startup"
+  | "asociacion"
+
+export type NeedKey =
+  | "financiacion"
+  | "credito"
+  | "formacion"
+  | "mentoria"
+  | "aceleracion"
+
 export interface FAQ {
   question: string
   answer: string
@@ -29,6 +43,8 @@ export interface Opportunity {
   applicationSteps: string[]
   faqs: FAQ[]
   applicationUrl?: string
+  audienceKeys?: AudienceKey[]
+  needKeys?: NeedKey[]
 }
 
 export interface TargetAudience {
@@ -67,6 +83,8 @@ export interface Program {
   targetAudience: TargetAudience[]
   offerings: Offering[]
   applicationProcess: string
+  audienceKeys?: AudienceKey[]
+  needKeys?: NeedKey[]
 }
 
 export type BusinessCategory =

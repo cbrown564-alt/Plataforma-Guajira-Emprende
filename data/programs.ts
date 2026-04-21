@@ -62,6 +62,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "El proceso de postulación es 100% digital. Completa tu perfil, sube tu plan de negocio y participa en nuestras sesiones de retroalimentación. Evaluamos proyectos cada trimestre.",
+    audienceKeys: ["joven", "wayuu"],
+    needKeys: ["financiacion", "formacion", "mentoria"],
   },
   {
     id: "escuela-turismo-wayuu",
@@ -114,6 +116,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Completa el formulario de inscripción, adjunta una carta de motivación y participa en una entrevista comunitaria. Los cupos son limitados y priorizamos a postulantes con vínculos a iniciativas turísticas locales.",
+    audienceKeys: ["wayuu", "joven", "asociacion"],
+    needKeys: ["formacion", "mentoria"],
   },
   {
     id: "microcreditos-bancoldex",
@@ -166,6 +170,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Agenda una cita con un asesor Bancóldex, presenta tus estados financieros y el plan de inversión. El comité evalúa las solicitudes en un plazo máximo de 15 días hábiles.",
+    audienceKeys: ["pyme", "asociacion"],
+    needKeys: ["credito", "financiacion", "mentoria"],
   },
   {
     id: "incubadora-turismo",
@@ -218,6 +224,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Envía tu pitch deck y video de presentación (máximo 3 minutos). Los equipos seleccionados participan en un bootcamp intensivo de dos semanas antes de comenzar el programa regular.",
+    audienceKeys: ["startup", "joven"],
+    needKeys: ["aceleracion", "mentoria", "financiacion"],
   },
   {
     id: "innovacion-turistica",
@@ -270,6 +278,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Presenta una propuesta técnica con prototipo funcional. Los finalistas pitchean ante un comité multidisciplinario que evalúa viabilidad técnica, impacto social y sostenibilidad financiera.",
+    audienceKeys: ["startup"],
+    needKeys: ["financiacion", "aceleracion", "mentoria"],
   },
   {
     id: "turismo-comunitario",
@@ -322,6 +332,8 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Las comunidades interesadas contactan al equipo territorial del Ministerio. Visitamos la ranchería, identificamos necesidades y diseñamos un plan de apoyo a la medida que se firma con los líderes comunitarios.",
+    audienceKeys: ["wayuu", "asociacion"],
+    needKeys: ["financiacion", "formacion"],
   },
 ]
 
