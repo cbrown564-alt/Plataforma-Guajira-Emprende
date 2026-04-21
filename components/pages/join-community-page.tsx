@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Users, MapPin, Mail, MessageCircle, CheckCircle, Heart, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { openWhatsApp } from "@/lib/whatsapp"
+import { MUNICIPALITIES } from "@/lib/constants"
 
 export default function JoinCommunityPage() {
   const [formData, setFormData] = useState({
@@ -26,24 +28,6 @@ export default function JoinCommunityPage() {
     { id: "networking", label: "Conexiones y networking", icon: "🌐" },
     { id: "marketing", label: "Marketing y promoción", icon: "📢" },
     { id: "legal", label: "Asesoría legal y registros", icon: "📋" },
-  ]
-
-  const municipalities = [
-    "Riohacha",
-    "Maicao",
-    "Uribia",
-    "Manaure",
-    "Albania",
-    "Barrancas",
-    "Distracción",
-    "El Molino",
-    "Fonseca",
-    "Hatonuevo",
-    "La Jagua del Pilar",
-    "San Juan del Cesar",
-    "Villanueva",
-    "Dibulla",
-    "Otra comunidad",
   ]
 
   const handleInputChange = (field: string, value: string) => {
@@ -68,14 +52,10 @@ export default function JoinCommunityPage() {
     setIsSubmitting(false)
   }
 
-  const handleWhatsAppBroadcast = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
+  const handleWhatsAppBroadcast = () =>
+    openWhatsApp(
       `¡Hola! Me acabo de unir a la comunidad de Plataforma Guajira Emprende. Mi nombre es ${formData.nombre} y soy de ${formData.municipio}. Me gustaría unirme a la lista de difusión de WhatsApp para recibir actualizaciones sobre oportunidades y eventos. ¡Gracias!`,
     )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-  }
 
   if (isSubmitted) {
     return (
@@ -248,7 +228,7 @@ export default function JoinCommunityPage() {
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
                 >
                   <option value="">Selecciona tu ubicación</option>
-                  {municipalities.map((municipality) => (
+                  {MUNICIPALITIES.map((municipality) => (
                     <option key={municipality} value={municipality}>
                       {municipality}
                     </option>

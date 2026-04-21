@@ -77,6 +77,8 @@ export type BusinessCategory =
   | "Artesanías"
   | "Transporte"
 
+export type CategoryFilter = "Todos" | BusinessCategory
+
 export interface Business {
   id: string
   name: string

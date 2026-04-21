@@ -1,11 +1,11 @@
-import Navigation from "../navigation"
-import HeroSection from "../hero-section"
-import OpportunitiesSection from "../opportunities-section"
-import ProgramsSection from "../programs-section"
-import DirectorySection from "../directory-section"
-import ContactSection from "../contact-section"
-import Footer from "../footer"
-import WhatsAppButton from "../whatsapp-button"
+import Navigation from "@/components/navigation"
+import HeroSection from "@/components/sections/hero-section"
+import OpportunitiesSection from "@/components/sections/opportunities-section"
+import ProgramsSection from "@/components/sections/programs-section"
+import DirectorySection from "@/components/sections/directory-section"
+import ContactSection from "@/components/sections/contact-section"
+import Footer from "@/components/sections/footer"
+import WhatsAppButton from "@/components/whatsapp-button"
 
 export default function Page() {
   return (

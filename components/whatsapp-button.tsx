@@ -1,18 +1,13 @@
 "use client"
 
 import { MessageCircle } from "lucide-react"
+import { openWhatsApp } from "@/lib/whatsapp"
 
 export default function WhatsAppButton() {
-  const phoneNumber = "573001234567" // Colombian WhatsApp number format
-  const message = encodeURIComponent(
-    "¡Hola! 👋 Necesito ayuda con los programas de financiación de Plataforma Guajira Emprende. ¿Podrían orientarme sobre las oportunidades disponibles?",
-  )
-
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-
-  const handleClick = () => {
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-  }
+  const handleClick = () =>
+    openWhatsApp(
+      "¡Hola! 👋 Necesito ayuda con los programas de financiación de Plataforma Guajira Emprende. ¿Podrían orientarme sobre las oportunidades disponibles?",
+    )
 
   return (
     <>

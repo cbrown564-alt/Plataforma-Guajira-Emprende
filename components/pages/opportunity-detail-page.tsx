@@ -20,19 +20,14 @@ import {
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getOpportunityById } from "@/data/opportunities"
+import { openWhatsApp } from "@/lib/whatsapp"
 
 export default function OpportunityDetailPage({ id }: { id: string }) {
   const opportunity = getOpportunityById(id)
   if (!opportunity) notFound()
 
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      `¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.title}". ¿Podrían ayudarme?`,
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-  }
+  const handleWhatsAppClick = () =>
+    openWhatsApp(`¡Hola! Tengo preguntas sobre la oportunidad "${opportunity.title}". ¿Podrían ayudarme?`)
 
   const statusBadgeClass =
     opportunity.status === "Activo"

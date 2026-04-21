@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import ProgramDetailPage from "../../../program-detail-page"
+import ProgramDetailPage from "@/components/pages/program-detail-page"
 import { getProgramById, programs } from "@/data/programs"
 
 export function generateStaticParams() {

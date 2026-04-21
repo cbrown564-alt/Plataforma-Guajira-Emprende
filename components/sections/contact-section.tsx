@@ -3,16 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Building2, Users, Heart } from "lucide-react"
+import { openWhatsApp } from "@/lib/whatsapp"
 
 export default function ContactSection() {
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      "¡Hola! Me gustaría obtener más información sobre los programas de emprendimiento turístico en La Guajira.",
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-  }
+  const handleWhatsAppClick = () =>
+    openWhatsApp("¡Hola! Me gustaría obtener más información sobre los programas de emprendimiento turístico en La Guajira.")
 
   const contactMethods = [
     {

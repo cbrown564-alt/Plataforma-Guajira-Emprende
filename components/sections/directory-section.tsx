@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Building2, MapPin, Phone, Mail, ExternalLink, Star, ArrowRight } from "lucide-react"
 import { businesses } from "@/data/businesses"
-import type { BusinessCategory } from "@/data/types"
-
-type CategoryFilter = "Todos" | BusinessCategory
+import type { CategoryFilter } from "@/data/types"
 
 const CATEGORY_COLORS: Record<CategoryFilter, string> = {
   Todos: "bg-gray-100 text-gray-800",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import OpportunityDetailPage from "../../../opportunity-detail-page"
+import OpportunityDetailPage from "@/components/pages/opportunity-detail-page"
 import { getOpportunityById, opportunities } from "@/data/opportunities"
 
 export function generateStaticParams() {
