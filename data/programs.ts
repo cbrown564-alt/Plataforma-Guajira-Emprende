@@ -62,6 +62,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "El proceso de postulación es 100% digital. Completa tu perfil, sube tu plan de negocio y participa en nuestras sesiones de retroalimentación. Evaluamos proyectos cada trimestre.",
+    match: {
+      audiences: ["youth", "wayuu"],
+      supports: ["funding", "training", "mentorship"],
+      stages: ["idea", "early"],
+    },
   },
   {
     id: "escuela-turismo-wayuu",
@@ -114,6 +119,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Completa el formulario de inscripción, adjunta una carta de motivación y participa en una entrevista comunitaria. Los cupos son limitados y priorizamos a postulantes con vínculos a iniciativas turísticas locales.",
+    match: {
+      audiences: ["wayuu", "community-assoc", "youth"],
+      supports: ["training", "mentorship"],
+      stages: ["idea", "early", "operating"],
+    },
   },
   {
     id: "microcreditos-bancoldex",
@@ -166,6 +176,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Agenda una cita con un asesor Bancóldex, presenta tus estados financieros y el plan de inversión. El comité evalúa las solicitudes en un plazo máximo de 15 días hábiles.",
+    match: {
+      audiences: ["pyme", "community-assoc"],
+      supports: ["credit", "funding", "mentorship"],
+      stages: ["operating"],
+    },
   },
   {
     id: "incubadora-turismo",
@@ -218,6 +233,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Envía tu pitch deck y video de presentación (máximo 3 minutos). Los equipos seleccionados participan en un bootcamp intensivo de dos semanas antes de comenzar el programa regular.",
+    match: {
+      audiences: ["startup-team", "youth"],
+      supports: ["mentorship", "infrastructure", "funding"],
+      stages: ["idea", "early"],
+    },
   },
   {
     id: "innovacion-turistica",
@@ -270,6 +290,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Presenta una propuesta técnica con prototipo funcional. Los finalistas pitchean ante un comité multidisciplinario que evalúa viabilidad técnica, impacto social y sostenibilidad financiera.",
+    match: {
+      audiences: ["tech-team", "startup-team"],
+      supports: ["funding", "mentorship"],
+      stages: ["early", "operating"],
+    },
   },
   {
     id: "turismo-comunitario",
@@ -322,6 +347,11 @@ export const programs: Program[] = [
     ],
     applicationProcess:
       "Las comunidades interesadas contactan al equipo territorial del Ministerio. Visitamos la ranchería, identificamos necesidades y diseñamos un plan de apoyo a la medida que se firma con los líderes comunitarios.",
+    match: {
+      audiences: ["wayuu", "community-assoc"],
+      supports: ["infrastructure", "training", "promotion"],
+      stages: ["idea", "early", "operating"],
+    },
   },
 ]
 
