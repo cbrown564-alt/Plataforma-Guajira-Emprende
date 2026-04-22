@@ -1,5 +1,6 @@
 import Navigation from "../navigation"
 import HeroSection from "../hero-section"
+import OpportunityFinder from "../opportunity-finder"
 import OpportunitiesSection from "../opportunities-section"
 import ProgramsSection from "../programs-section"
 import DirectorySection from "../directory-section"
@@ -14,6 +15,7 @@ export default function Page() {
       <section id="home">
         <HeroSection />
       </section>
+      <OpportunityFinder />
       <section id="opportunities">
         <OpportunitiesSection />
       </section>

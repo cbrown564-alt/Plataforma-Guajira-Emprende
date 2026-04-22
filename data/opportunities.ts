@@ -59,6 +59,11 @@ export const opportunities: Opportunity[] = [
           "No es obligatorio, pero se valorará positivamente. Ofrecemos programas de formación complementarios para fortalecer las capacidades empresariales.",
       },
     ],
+    match: {
+      audiences: ["youth", "wayuu"],
+      supports: ["funding", "training", "mentorship"],
+      stages: ["idea", "early"],
+    },
   },
   {
     id: "escuela-turismo-wayuu-cohorte-2024",
@@ -110,6 +115,11 @@ export const opportunities: Opportunity[] = [
           "Sí. Los egresados reciben un certificado emitido por el Ministerio de Comercio, Industria y Turismo con aval del SENA.",
       },
     ],
+    match: {
+      audiences: ["wayuu", "community-assoc", "youth"],
+      supports: ["training", "mentorship"],
+      stages: ["idea", "early", "operating"],
+    },
   },
   {
     id: "microcreditos-bancoldex-turismo",
@@ -161,6 +171,11 @@ export const opportunities: Opportunity[] = [
           "Recibes asesoría mensual en gestión financiera, marketing turístico y cumplimiento normativo durante toda la vigencia del crédito.",
       },
     ],
+    match: {
+      audiences: ["pyme", "community-assoc"],
+      supports: ["credit", "funding", "mentorship"],
+      stages: ["operating"],
+    },
   },
 ]
 

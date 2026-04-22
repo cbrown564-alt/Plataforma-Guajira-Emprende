@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Compass } from "lucide-react"
 import Link from "next/link"
 
 export default function HeroSection() {
@@ -42,14 +42,24 @@ export default function HeroSection() {
             oportunidades reales para hacer crecer sus negocios turísticos.
           </p>
 
-          {/* CTA Button */}
-          <div className="pt-4 sm:pt-6">
+          {/* CTA Buttons */}
+          <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+            <Link href="#finder">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-base sm:text-lg px-7 sm:px-8 py-4 h-auto rounded-full shadow-2xl transform hover:scale-105 transition-all duration-200"
+              >
+                <Compass className="mr-2 h-5 w-5" aria-hidden />
+                Encuentra tu apoyo
+              </Button>
+            </Link>
             <Link href="/onboarding">
               <Button
                 size="lg"
-                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-lg px-8 py-4 h-auto rounded-full shadow-2xl transform hover:scale-105 transition-all duration-200"
+                variant="outline"
+                className="bg-white/10 backdrop-blur-sm border-2 border-white/60 text-white hover:bg-white/20 hover:text-white font-semibold text-base sm:text-lg px-7 sm:px-8 py-4 h-auto rounded-full"
               >
-                Comienza Tu Emprendimiento
+                Comienza tu emprendimiento
               </Button>
             </Link>
           </div>
