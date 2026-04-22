@@ -17,6 +17,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+import { whatsappLink } from "@/lib/site-config"
+
 export default function OnboardingPage() {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({})
 
@@ -25,12 +27,13 @@ export default function OnboardingPage() {
   }
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      "¡Hola! 👋 Soy nuevo en la plataforma y me gustaría recibir orientación sobre cómo comenzar mi emprendimiento turístico en La Guajira. ¿Podrían ayudarme?",
+    window.open(
+      whatsappLink(
+        "¡Hola! 👋 Soy nuevo en la plataforma y me gustaría recibir orientación sobre cómo comenzar mi emprendimiento turístico en La Guajira. ¿Podrían ayudarme?",
+      ),
+      "_blank",
+      "noopener,noreferrer",
     )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
   }
 
   const checklistItems = [

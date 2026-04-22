@@ -1,83 +1,123 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
+import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "sonner"
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle,
+  Heart,
+  Loader2,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Sparkles,
+  Users,
+} from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Users, MapPin, Mail, MessageCircle, CheckCircle, Heart, Sparkles, ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { whatsappLink } from "@/lib/site-config"
+import {
+  SUPPORT_TYPES,
+  isEmail,
+  joinFormSchema,
+  type JoinFormValues,
+} from "@/lib/schemas"
+
+const supportOptions: { id: (typeof SUPPORT_TYPES)[number]; label: string; icon: string }[] = [
+  { id: "financiacion", label: "Financiación para mi proyecto", icon: "💰" },
+  { id: "formacion", label: "Capacitación y formación", icon: "📚" },
+  { id: "mentoria", label: "Mentoría y acompañamiento", icon: "🤝" },
+  { id: "networking", label: "Conexiones y networking", icon: "🌐" },
+  { id: "marketing", label: "Marketing y promoción", icon: "📢" },
+  { id: "legal", label: "Asesoría legal y registros", icon: "📋" },
+]
+
+const municipalities = [
+  "Riohacha",
+  "Maicao",
+  "Uribia",
+  "Manaure",
+  "Albania",
+  "Barrancas",
+  "Distracción",
+  "El Molino",
+  "Fonseca",
+  "Hatonuevo",
+  "La Jagua del Pilar",
+  "San Juan del Cesar",
+  "Villanueva",
+  "Dibulla",
+  "Otra comunidad",
+] as const
 
 export default function JoinCommunityPage() {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    municipio: "",
-    contacto: "",
-    tipoApoyo: [] as string[],
+  const [submission, setSubmission] = useState<JoinFormValues | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<JoinFormValues>({
+    resolver: zodResolver(joinFormSchema),
+    defaultValues: {
+      nombre: "",
+      municipio: undefined,
+      contacto: "",
+      tipoApoyo: [],
+      website: "",
+    },
   })
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const supportTypes = [
-    { id: "financiacion", label: "Financiación para mi proyecto", icon: "💰" },
-    { id: "formacion", label: "Capacitación y formación", icon: "📚" },
-    { id: "mentoria", label: "Mentoría y acompañamiento", icon: "🤝" },
-    { id: "networking", label: "Conexiones y networking", icon: "🌐" },
-    { id: "marketing", label: "Marketing y promoción", icon: "📢" },
-    { id: "legal", label: "Asesoría legal y registros", icon: "📋" },
-  ]
+  const selectedSupport = watch("tipoApoyo") ?? []
 
-  const municipalities = [
-    "Riohacha",
-    "Maicao",
-    "Uribia",
-    "Manaure",
-    "Albania",
-    "Barrancas",
-    "Distracción",
-    "El Molino",
-    "Fonseca",
-    "Hatonuevo",
-    "La Jagua del Pilar",
-    "San Juan del Cesar",
-    "Villanueva",
-    "Dibulla",
-    "Otra comunidad",
-  ]
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+  const toggleSupport = (id: (typeof SUPPORT_TYPES)[number], checked: boolean) => {
+    const next = checked
+      ? Array.from(new Set([...selectedSupport, id]))
+      : selectedSupport.filter((value) => value !== id)
+    setValue("tipoApoyo", next, { shouldValidate: true })
   }
 
-  const handleSupportTypeChange = (supportId: string, checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      tipoApoyo: checked ? [...prev.tipoApoyo, supportId] : prev.tipoApoyo.filter((id) => id !== supportId),
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-  }
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      const response = await fetch("/api/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
+      const data = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+      }
+      if (!response.ok || !data.ok) {
+        toast.error(
+          data.error ??
+            "No pudimos registrar tu información. Intenta de nuevo o escríbenos por WhatsApp.",
+        )
+        return
+      }
+      toast.success("¡Bienvenido a la comunidad! Te escribiremos muy pronto.")
+      setSubmission(values)
+    } catch {
+      toast.error("Problema de conexión. Revisa tu internet e intenta de nuevo.")
+    }
+  })
 
   const handleWhatsAppBroadcast = () => {
-    const phoneNumber = "573001234567"
-    const message = encodeURIComponent(
-      `¡Hola! Me acabo de unir a la comunidad de Plataforma Guajira Emprende. Mi nombre es ${formData.nombre} y soy de ${formData.municipio}. Me gustaría unirme a la lista de difusión de WhatsApp para recibir actualizaciones sobre oportunidades y eventos. ¡Gracias!`,
-    )
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+    if (!submission) return
+    const message = `¡Hola! Me acabo de unir a la comunidad de Plataforma Guajira Emprende. Mi nombre es ${submission.nombre} y soy de ${submission.municipio}. Me gustaría unirme a la lista de difusión de WhatsApp para recibir actualizaciones sobre oportunidades y eventos. ¡Gracias!`
+    window.open(whatsappLink(message), "_blank", "noopener,noreferrer")
   }
 
-  if (isSubmitted) {
+  if (submission) {
+    const contactIsEmail = isEmail(submission.contacto)
     return (
       <div className="min-h-screen bg-gradient-to-b from-green-50/30 to-white">
         {/* Navigation Header */}
@@ -94,7 +134,6 @@ export default function JoinCommunityPage() {
         </div>
 
         <div className="container mx-auto px-4 py-12 max-w-2xl">
-          {/* Success Message */}
           <Card className="border-2 border-green-200 bg-green-50 text-center">
             <CardContent className="pt-12 pb-8">
               <div className="mb-6">
@@ -106,8 +145,9 @@ export default function JoinCommunityPage() {
               <h1 className="text-3xl font-bold text-green-900 mb-4">¡Bienvenido a la comunidad!</h1>
 
               <p className="text-lg text-green-700 mb-8 leading-relaxed">
-                Gracias <strong>{formData.nombre}</strong> por unirte a nuestra comunidad de emprendedores turísticos en
-                La Guajira. Pronto recibirás información sobre las oportunidades que mejor se adapten a tus necesidades.
+                Gracias <strong>{submission.nombre}</strong> por unirte a nuestra comunidad de emprendedores turísticos
+                en La Guajira. Pronto recibirás información sobre las oportunidades que mejor se adapten a tus
+                necesidades.
               </p>
 
               {/* Next Steps */}
@@ -118,7 +158,11 @@ export default function JoinCommunityPage() {
                     <div className="w-6 h-6 bg-turquoise-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
                       1
                     </div>
-                    <span className="text-green-800">Revisa tu correo electrónico para confirmar tu registro</span>
+                    <span className="text-green-800">
+                      {contactIsEmail
+                        ? "Revisa tu correo electrónico para confirmar tu registro"
+                        : "Te escribiremos por WhatsApp en las próximas horas para confirmar tu registro"}
+                    </span>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-6 h-6 bg-turquoise-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
@@ -146,7 +190,7 @@ export default function JoinCommunityPage() {
                 </Button>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Link href="#opportunities" className="flex-1">
+                  <Link href="/#opportunities" className="flex-1">
                     <Button
                       variant="outline"
                       className="w-full border-2 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50 font-semibold py-3 rounded-full"
@@ -218,76 +262,105 @@ export default function JoinCommunityPage() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6" noValidate>
+              {/* Honeypot */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="join-website">Sitio web</label>
+                <input
+                  id="join-website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  {...register("website")}
+                />
+              </div>
+
               {/* Nombre */}
               <div>
-                <label className="block text-sm font-medium text-amber-800 mb-2">
+                <label htmlFor="join-nombre" className="block text-sm font-medium text-amber-800 mb-2">
                   <Users className="h-4 w-4 inline mr-2" />
                   Nombre completo *
                 </label>
                 <input
+                  id="join-nombre"
                   type="text"
-                  required
-                  value={formData.nombre}
-                  onChange={(e) => handleInputChange("nombre", e.target.value)}
+                  autoComplete="name"
+                  aria-invalid={Boolean(errors.nombre)}
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
                   placeholder="Tu nombre completo"
+                  {...register("nombre")}
                 />
+                {errors.nombre && (
+                  <p className="text-sm text-coral-700 mt-1">{errors.nombre.message}</p>
+                )}
               </div>
 
               {/* Municipio */}
               <div>
-                <label className="block text-sm font-medium text-amber-800 mb-2">
+                <label htmlFor="join-municipio" className="block text-sm font-medium text-amber-800 mb-2">
                   <MapPin className="h-4 w-4 inline mr-2" />
                   Municipio o Comunidad *
                 </label>
                 <select
-                  required
-                  value={formData.municipio}
-                  onChange={(e) => handleInputChange("municipio", e.target.value)}
+                  id="join-municipio"
+                  aria-invalid={Boolean(errors.municipio)}
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
+                  defaultValue=""
+                  {...register("municipio")}
                 >
-                  <option value="">Selecciona tu ubicación</option>
+                  <option value="" disabled>
+                    Selecciona tu ubicación
+                  </option>
                   {municipalities.map((municipality) => (
                     <option key={municipality} value={municipality}>
                       {municipality}
                     </option>
                   ))}
                 </select>
+                {errors.municipio && (
+                  <p className="text-sm text-coral-700 mt-1">{errors.municipio.message}</p>
+                )}
               </div>
 
               {/* Contacto */}
               <div>
-                <label className="block text-sm font-medium text-amber-800 mb-2">
+                <label htmlFor="join-contacto" className="block text-sm font-medium text-amber-800 mb-2">
                   <Mail className="h-4 w-4 inline mr-2" />
                   Correo electrónico o WhatsApp *
                 </label>
                 <input
+                  id="join-contacto"
                   type="text"
-                  required
-                  value={formData.contacto}
-                  onChange={(e) => handleInputChange("contacto", e.target.value)}
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.contacto)}
                   className="w-full px-4 py-3 border border-amber-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-transparent"
                   placeholder="tu@email.com o +57 300 123 4567"
+                  {...register("contacto")}
                 />
-                <p className="text-xs text-amber-600 mt-1">Puedes usar tu correo electrónico o número de WhatsApp</p>
+                {errors.contacto ? (
+                  <p className="text-sm text-coral-700 mt-1">{errors.contacto.message}</p>
+                ) : (
+                  <p className="text-xs text-amber-600 mt-1">
+                    Puedes usar tu correo electrónico o número de WhatsApp
+                  </p>
+                )}
               </div>
 
               {/* Tipo de Apoyo */}
               <div>
-                <label className="block text-sm font-medium text-amber-800 mb-4">
+                <span className="block text-sm font-medium text-amber-800 mb-4">
                   ¿Qué tipo de apoyo buscas? (puedes seleccionar varios)
-                </label>
+                </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {supportTypes.map((support) => (
+                  {supportOptions.map((support) => (
                     <div
                       key={support.id}
                       className="flex items-start space-x-3 p-3 border border-amber-200 rounded-lg hover:bg-amber-50 transition-colors"
                     >
                       <Checkbox
                         id={support.id}
-                        checked={formData.tipoApoyo.includes(support.id)}
-                        onCheckedChange={(checked) => handleSupportTypeChange(support.id, checked as boolean)}
+                        checked={selectedSupport.includes(support.id)}
+                        onCheckedChange={(checked) => toggleSupport(support.id, checked === true)}
                         className="mt-1 data-[state=checked]:bg-turquoise-600 data-[state=checked]:border-turquoise-600"
                       />
                       <label htmlFor={support.id} className="flex-1 cursor-pointer">
@@ -309,7 +382,7 @@ export default function JoinCommunityPage() {
               >
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     Procesando...
                   </>
                 ) : (
