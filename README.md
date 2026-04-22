@@ -12,6 +12,7 @@ The platform serves as a centralized hub for tourism entrepreneurs in La Guajira
 
 - **Explore funding opportunities** — grants, microcredits, and non-reimbursable funds (e.g. Fondo Emprender Turismo, Microcréditos Bancóldex)
 - **Browse training programs** — the Escuela de Turismo Wayuu, incubation programs, and community tourism initiatives
+- **Get a personalized match** at `/match` — answer 4 questions and see the opportunities and programs that best fit your profile, stage and needs
 - **Find businesses in the directory** — filter by category (cultural tourism, accommodation, gastronomy, ecotourism, crafts, transport)
 - **Register as an entrepreneur** — join the community via the `/join` form
 - **Start the onboarding checklist** — guided first steps at `/onboarding`
@@ -112,6 +113,7 @@ pnpm dev      # Start development server with hot reload
 pnpm build    # Build for production
 pnpm start    # Start production server
 pnpm lint     # Run ESLint
+pnpm test     # Run unit tests (matcher engine) via node:test
 ```
 
 ---

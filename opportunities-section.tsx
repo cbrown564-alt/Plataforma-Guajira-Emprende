@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, Calendar, CheckCircle, ArrowRight } from "lucide-react"
+import { DollarSign, Calendar, CheckCircle, ArrowRight, Compass } from "lucide-react"
 import Link from "next/link"
 import { opportunities } from "@/data/opportunities"
 import type { Opportunity } from "@/data/types"
@@ -42,15 +42,28 @@ export default function OpportunitiesSection() {
           </div>
         </div>
 
-        {/* View All Button */}
-        <div className="text-center mt-12">
-          <Button
-            variant="outline"
-            className="border-2 border-turquoise-500 text-turquoise-700 hover:bg-turquoise-50 font-semibold px-8 py-3 rounded-full"
-          >
-            Ver Todas las Oportunidades
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+        {/* Personalized Matcher CTA */}
+        <div className="mt-12">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-gradient-to-r from-turquoise-600 to-turquoise-700 text-white px-6 sm:px-10 py-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <div className="rounded-full bg-white/15 p-3 shrink-0">
+              <Compass className="h-6 w-6" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xl sm:text-2xl font-bold">
+                ¿No sabes por dónde empezar?
+              </h3>
+              <p className="text-turquoise-50 mt-1 text-sm sm:text-base">
+                Responde 4 preguntas y te mostramos los apoyos que mejor se ajustan a tu perfil
+                y etapa.
+              </p>
+            </div>
+            <Link href="/match" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto bg-white text-turquoise-800 hover:bg-turquoise-50 font-semibold px-6 py-3 rounded-full">
+                Encuentra tu apoyo
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

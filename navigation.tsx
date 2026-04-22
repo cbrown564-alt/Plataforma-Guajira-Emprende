@@ -22,11 +22,12 @@ export default function Navigation() {
   }
 
   const navLinks = [
-    { name: "Inicio", href: "#home" },
-    { name: "Oportunidades", href: "#opportunities" },
-    { name: "Programas", href: "#training" },
-    { name: "Directorio", href: "#directory" },
-    { name: "Contacto", href: "#contact" },
+    { name: "Inicio", href: "/#home" },
+    { name: "Oportunidades", href: "/#opportunities" },
+    { name: "Programas", href: "/#training" },
+    { name: "Encuentra tu Apoyo", href: "/match" },
+    { name: "Directorio", href: "/#directory" },
+    { name: "Contacto", href: "/#contact" },
   ]
 
   return (

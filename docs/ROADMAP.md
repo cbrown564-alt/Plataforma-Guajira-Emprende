@@ -100,6 +100,21 @@ Add a honeypot field (hidden input with a fake name) to both forms before going 
 
 ---
 
+## Phase 4.5 — Personalized Discovery
+
+**Status: Complete**  
+**Goal:** Turn the static catalogue into a guided, personalised experience. Young entrepreneurs no longer have to read every card to know what applies to them.
+
+| Task | File | Status |
+|---|---|---|
+| Pure matching engine (age / community / stage / needs / sectors) | `lib/matcher.ts` | ✅ Done |
+| Unit tests via Node's built-in `node:test` runner | `lib/matcher.test.ts` | ✅ Done |
+| `pnpm test` script (no new deps — uses Node 22 `--experimental-strip-types`) | `package.json` | ✅ Done |
+| 4-step wizard at `/match` with top-3 opportunity + top-3 program results | `match-page.tsx`, `app/match/page.tsx` | ✅ Done |
+| Navigation entry and homepage CTA replacing non-functional "Ver Todas" button | `navigation.tsx`, `opportunities-section.tsx` | ✅ Done |
+
+---
+
 ## Phase 5 — SEO & Performance
 
 **Status: Not started**  
