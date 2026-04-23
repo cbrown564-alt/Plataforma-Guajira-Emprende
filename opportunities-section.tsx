@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, Calendar, CheckCircle, ArrowRight } from "lucide-react"
+import { DollarSign, CheckCircle, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { opportunities } from "@/data/opportunities"
 import type { Opportunity } from "@/data/types"
+import { DeadlineBadge } from "@/components/deadline-badge"
 
 export default function OpportunitiesSection() {
   return (
@@ -65,15 +66,11 @@ function OpportunityCard({ opportunity }: { opportunity: Opportunity }) {
       className={`w-80 md:w-full flex-shrink-0 snap-start ${opportunity.borderColor} border-2 hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
     >
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-3">
           <div className={`p-3 rounded-xl ${opportunity.bgColor}`}>
             <IconComponent className={`h-6 w-6 ${opportunity.iconColor}`} />
           </div>
-          <div className="text-right">
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-              {opportunity.status}
-            </span>
-          </div>
+          <DeadlineBadge deadline={opportunity.deadline} />
         </div>
 
         {/* Program Label */}
@@ -92,12 +89,6 @@ function OpportunityCard({ opportunity }: { opportunity: Opportunity }) {
         <div className="flex items-center space-x-3">
           <DollarSign className="h-4 w-4 text-amber-600" />
           <span className="text-sm font-medium text-amber-800">{opportunity.fundingType}</span>
-        </div>
-
-        {/* Deadline */}
-        <div className="flex items-center space-x-3">
-          <Calendar className="h-4 w-4 text-amber-600" />
-          <span className="text-sm text-amber-700">Cierre: {opportunity.deadline}</span>
         </div>
 
         {/* Eligibility */}

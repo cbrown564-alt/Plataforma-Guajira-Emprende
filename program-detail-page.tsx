@@ -11,10 +11,10 @@ import {
   CheckCircle,
   ArrowRight,
   Lightbulb,
-  Clock,
 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { DeadlineBadge, DeadlinePanel } from "@/components/deadline-badge"
 import { getProgramById } from "@/data/programs"
 import { getOpportunitiesByProgramId } from "@/data/opportunities"
 
@@ -63,8 +63,13 @@ export default function ProgramDetailPage({ id }: { id: string }) {
               {/* Subtitle */}
               <p className="text-lg text-amber-700 font-medium">{program.subtitle}</p>
 
+              {/* Live deadline status */}
+              <div className="mt-6">
+                <DeadlinePanel deadline={program.deadline} />
+              </div>
+
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="flex items-center space-x-3 p-3 bg-turquoise-50 rounded-lg">
                   <Users className="h-5 w-5 text-turquoise-600" />
                   <div>
@@ -196,25 +201,13 @@ export default function ProgramDetailPage({ id }: { id: string }) {
                     className="border border-gray-200 hover:shadow-md transition-all duration-200 hover:-translate-y-1"
                   >
                     <CardContent className="p-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-3 mb-2 flex-wrap">
                             <h3 className="font-bold text-gray-900">{opportunity.title}</h3>
-                            <span
-                              className={`text-xs px-2 py-1 rounded-full font-medium ${
-                                opportunity.status === "Activo"
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-amber-100 text-amber-800"
-                              }`}
-                            >
-                              {opportunity.status}
-                            </span>
+                            <DeadlineBadge deadline={opportunity.deadline} />
                           </div>
-                          <p className="text-gray-600 text-sm mb-2">{opportunity.description}</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <Clock className="h-4 w-4 mr-1" />
-                            <span>Cierre: {opportunity.deadline}</span>
-                          </div>
+                          <p className="text-gray-600 text-sm">{opportunity.description}</p>
                         </div>
                         <div className="flex-shrink-0">
                           <Link href={`/opportunity/${opportunity.id}`}>

@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import {
   ArrowLeft,
-  Calendar,
   Users,
   DollarSign,
   FileText,
@@ -14,12 +13,12 @@ import {
   MessageCircle,
   Phone,
   Mail,
-  Clock,
   Target,
 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { DeadlinePanel } from "@/components/deadline-badge"
 import { getOpportunityById } from "@/data/opportunities"
 import { CONTACT_PHONE, SUPPORT_EMAIL, whatsappLink } from "@/lib/site-config"
 
@@ -34,19 +33,6 @@ export default function OpportunityDetailPage({ id }: { id: string }) {
       "noopener,noreferrer",
     )
   }
-
-  const statusBadgeClass =
-    opportunity.status === "Activo"
-      ? "bg-green-100 text-green-800 border-2 border-green-200"
-      : opportunity.status === "Permanente"
-        ? "bg-amber-100 text-amber-800 border-2 border-amber-200"
-        : "bg-gray-100 text-gray-800 border-2 border-gray-200"
-  const statusDotClass =
-    opportunity.status === "Activo"
-      ? "bg-green-500"
-      : opportunity.status === "Permanente"
-        ? "bg-amber-500"
-        : "bg-gray-500"
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50/30 to-white">
@@ -78,28 +64,16 @@ export default function OpportunityDetailPage({ id }: { id: string }) {
                 </Link>
               </div>
 
-              {/* Title and Status */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div className="flex-1">
-                  <h1 className="text-2xl lg:text-3xl font-bold text-amber-900 leading-tight">{opportunity.title}</h1>
-                </div>
-                <div className="flex-shrink-0">
-                  <span className={`inline-flex items-center px-3 py-2 rounded-full text-sm font-bold ${statusBadgeClass}`}>
-                    <div className={`w-2 h-2 ${statusDotClass} rounded-full mr-2 animate-pulse`} />
-                    {opportunity.status}
-                  </span>
-                </div>
+              {/* Title */}
+              <h1 className="text-2xl lg:text-3xl font-bold text-amber-900 leading-tight">{opportunity.title}</h1>
+
+              {/* Live deadline status */}
+              <div className="mt-6">
+                <DeadlinePanel deadline={opportunity.deadline} resultsAt={opportunity.resultsAt} />
               </div>
 
-              {/* Key Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                <div className="flex items-center space-x-3 p-3 bg-amber-50 rounded-lg">
-                  <Calendar className="h-5 w-5 text-amber-600" />
-                  <div>
-                    <span className="text-xs text-amber-600 block font-medium">Fecha límite</span>
-                    <span className="text-sm font-bold text-amber-900">{opportunity.deadline}</span>
-                  </div>
-                </div>
+              {/* Eligibility */}
+              <div className="mt-4">
                 <div className="flex items-center space-x-3 p-3 bg-turquoise-50 rounded-lg">
                   <Users className="h-5 w-5 text-turquoise-600" />
                   <div>
@@ -119,42 +93,21 @@ export default function OpportunityDetailPage({ id }: { id: string }) {
           </CardContent>
         </Card>
 
-        {/* Key Information Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Support Type */}
-          <Card className="border border-green-200 bg-green-50/50">
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <DollarSign className="h-5 w-5 text-green-600" />
-                </div>
-                <CardTitle className="text-lg text-green-900">Tipo de Apoyo</CardTitle>
+        {/* Support Type */}
+        <Card className="mb-8 border border-green-200 bg-green-50/50">
+          <CardHeader className="pb-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <DollarSign className="h-5 w-5 text-green-600" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-green-800 font-semibold">{opportunity.supportType}</p>
-              <p className="text-sm text-green-700 mt-1">{opportunity.supportAmount}</p>
-            </CardContent>
-          </Card>
-
-          {/* Timeline */}
-          <Card className="border border-amber-200 bg-amber-50/50">
-            <CardHeader className="pb-4">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-amber-100 rounded-lg">
-                  <Clock className="h-5 w-5 text-amber-600" />
-                </div>
-                <CardTitle className="text-lg text-amber-900">Cronograma</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-amber-800 font-semibold">Cierre: {opportunity.deadline}</p>
-              {opportunity.resultsAt && (
-                <p className="text-sm text-amber-700 mt-1">Resultados: {opportunity.resultsAt}</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+              <CardTitle className="text-lg text-green-900">Tipo de Apoyo</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-green-800 font-semibold">{opportunity.supportType}</p>
+            <p className="text-sm text-green-700 mt-1">{opportunity.supportAmount}</p>
+          </CardContent>
+        </Card>
 
         {/* Requirements */}
         <Card className="mb-6 border border-gray-200">
