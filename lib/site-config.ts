@@ -1,5 +1,6 @@
 /**
- * Single source of truth for publicly visible contact information.
+ * Single source of truth for publicly visible contact information and site
+ * configuration.
  *
  * Values are driven by environment variables when available, with sensible
  * production fallbacks. Importing from this module (instead of hard-coding
@@ -12,6 +13,10 @@ const env = (key: string): string | undefined => {
   const value = process.env[key]
   return value && value.length > 0 ? value : undefined
 }
+
+/** Canonical base URL for the site — no trailing slash. */
+export const SITE_URL: string =
+  env("NEXT_PUBLIC_SITE_URL") ?? "https://guajiraemprende.gov.co"
 
 /** Raw WhatsApp number, digits only (no leading `+`), e.g. "573001234567". */
 export const WHATSAPP_NUMBER: string =
