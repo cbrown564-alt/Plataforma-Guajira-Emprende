@@ -3,6 +3,7 @@ import HeroSection from "../hero-section"
 import OpportunityFinder from "../opportunity-finder"
 import OpportunitiesSection from "../opportunities-section"
 import ProgramsSection from "../programs-section"
+import SuccessStoriesSection from "../success-stories-section"
 import DirectorySection from "../directory-section"
 import ContactSection from "../contact-section"
 import Footer from "../footer"
@@ -21,6 +22,9 @@ export default function Page() {
       </section>
       <section id="training">
         <ProgramsSection />
+      </section>
+      <section id="stories">
+        <SuccessStoriesSection />
       </section>
       <section id="directory">
         <DirectorySection />

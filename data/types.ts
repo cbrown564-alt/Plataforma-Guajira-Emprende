@@ -105,6 +105,33 @@ export type BusinessCategory =
   | "Artesanías"
   | "Transporte"
 
+export interface SuccessStoryMetric {
+  label: string
+  before: string
+  after: string
+}
+
+export interface SuccessStory {
+  id: string
+  name: string
+  age: number
+  location: string
+  business: string
+  businessType: string
+  programId: string
+  programName: string
+  programBadgeColor: string
+  accentBg: string
+  quote: string
+  metrics: SuccessStoryMetric[]
+  yearJoined: number
+}
+
+export interface ImpactStat {
+  value: string
+  label: string
+}
+
 export interface Business {
   id: string
   name: string

@@ -25,6 +25,7 @@ export default function Navigation() {
     { name: "Inicio", href: "#home" },
     { name: "Oportunidades", href: "#opportunities" },
     { name: "Programas", href: "#training" },
+    { name: "Éxitos", href: "#stories" },
     { name: "Directorio", href: "#directory" },
     { name: "Contacto", href: "#contact" },
   ]

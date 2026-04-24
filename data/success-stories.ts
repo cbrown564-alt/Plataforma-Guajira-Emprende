@@ -1,0 +1,131 @@
+import type { SuccessStory, ImpactStat } from "./types"
+
+export const successStories: SuccessStory[] = [
+  {
+    id: "luzma-epieyu",
+    name: "Luzma Epieyu",
+    age: 26,
+    location: "Uribia, La Guajira",
+    business: "Wayuu Desert Experiences",
+    businessType: "Turismo Cultural",
+    programId: "fondo-emprender-turismo",
+    programName: "Fondo Emprender",
+    programBadgeColor: "bg-green-100 text-green-800",
+    accentBg: "bg-green-600",
+    quote:
+      "Con el fondo pude dejar de trabajar para otros y empezar algo mío. Ahora cinco mujeres de mi ranchería tienen empleo estable y yo cuento la historia de mi cultura en mis propias palabras.",
+    metrics: [
+      { label: "Ingresos mensuales", before: "$650.000", after: "$4.2M" },
+      { label: "Empleos directos", before: "0", after: "5" },
+      { label: "Turistas por mes", before: "0", after: "120" },
+    ],
+    yearJoined: 2024,
+  },
+  {
+    id: "jose-iguaran",
+    name: "José Iguarán",
+    age: 34,
+    location: "Punta Gallinas, La Guajira",
+    business: "Expediciones Fin del Mundo",
+    businessType: "Ecoturismo",
+    programId: "turismo-comunitario",
+    programName: "Turismo Comunitario",
+    programBadgeColor: "bg-rose-100 text-rose-800",
+    accentBg: "bg-rose-600",
+    quote:
+      "Los turistas llegan desde Europa para ver el punto más norte de Suramérica. Yo los llevo, les cuento nuestra historia y ellos se van diferentes. Eso no tiene precio.",
+    metrics: [
+      { label: "Turistas por mes", before: "20", after: "180" },
+      { label: "Ingresos mensuales", before: "$800K", after: "$5.1M" },
+      { label: "Guías locales contratados", before: "1", after: "4" },
+    ],
+    yearJoined: 2024,
+  },
+  {
+    id: "daniela-uriana",
+    name: "Daniela Uriana",
+    age: 29,
+    location: "Maicao, La Guajira",
+    business: "Wayuu Digital",
+    businessType: "Plataforma Digital",
+    programId: "innovacion-turistica",
+    programName: "Innovación Turística",
+    programBadgeColor: "bg-purple-100 text-purple-800",
+    accentBg: "bg-purple-600",
+    quote:
+      "Siempre supe que la tecnología podía conectar nuestra cultura con el mundo. El fondo me dio los recursos, pero la comunidad wayuu me dio el contenido.",
+    metrics: [
+      { label: "Experiencias publicadas", before: "0", after: "47" },
+      { label: "Reservas por mes", before: "0", after: "230" },
+      { label: "Ingresos mensuales", before: "$0", after: "$8.7M" },
+    ],
+    yearJoined: 2025,
+  },
+  {
+    id: "carlos-ballesteros",
+    name: "Carlos Ballesteros",
+    age: 31,
+    location: "Riohacha, La Guajira",
+    business: "Sabana Azul Ecohotel",
+    businessType: "Hospedaje Sostenible",
+    programId: "microcreditos-bancoldex",
+    programName: "Microcréditos Bancóldex",
+    programBadgeColor: "bg-coral-100 text-coral-800",
+    accentBg: "bg-coral-600",
+    quote:
+      "Con el microcrédito amplié de 4 a 12 habitaciones. Hoy somos el ecohotel con mejor calificación en toda La Guajira.",
+    metrics: [
+      { label: "Habitaciones", before: "4", after: "12" },
+      { label: "Ocupación promedio", before: "35%", after: "78%" },
+      { label: "Empleados", before: "2", after: "8" },
+    ],
+    yearJoined: 2025,
+  },
+  {
+    id: "aura-pushaina",
+    name: "Aura Pushaina",
+    age: 22,
+    location: "Manaure, La Guajira",
+    business: "Sabores Wayuu de Aura",
+    businessType: "Gastronomía",
+    programId: "escuela-turismo-wayuu",
+    programName: "Escuela de Turismo Wayuu",
+    programBadgeColor: "bg-turquoise-100 text-turquoise-800",
+    accentBg: "bg-turquoise-600",
+    quote:
+      "Aprendí que mi cocina ancestral es un patrimonio vivo. Ahora los turistas vienen específicamente a probar los platos que heredé de mi abuela.",
+    metrics: [
+      { label: "Comensales por día", before: "15", after: "80" },
+      { label: "Ingresos mensuales", before: "$400K", after: "$2.8M" },
+      { label: "Platos en el menú", before: "6", after: "24" },
+    ],
+    yearJoined: 2025,
+  },
+  {
+    id: "familia-arias",
+    name: "Luis & María Arias",
+    age: 38,
+    location: "Cabo de la Vela, La Guajira",
+    business: "Kite & Desert Camp",
+    businessType: "Turismo de Aventura",
+    programId: "incubadora-turismo",
+    programName: "Incubadora de Turismo",
+    programBadgeColor: "bg-amber-100 text-amber-800",
+    accentBg: "bg-amber-600",
+    quote:
+      "La incubadora nos enseñó a pensar como empresa. Pasamos de ser una familia con camas extras a una operadora de turismo reconocida internacionalmente.",
+    metrics: [
+      { label: "Ingresos mensuales", before: "$1.5M", after: "$12M" },
+      { label: "Clientes por mes", before: "8", after: "95" },
+      { label: "Servicios ofrecidos", before: "2", after: "7" },
+    ],
+    yearJoined: 2024,
+  },
+]
+
+export const impactStats: ImpactStat[] = [
+  { value: "$12.5B", label: "COP invertidos en emprendimientos" },
+  { value: "1.200+", label: "emprendedores apoyados" },
+  { value: "340+", label: "negocios formalizados" },
+  { value: "15", label: "municipios beneficiados" },
+]
