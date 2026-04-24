@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, Calendar, CheckCircle, ArrowRight } from "lucide-react"
+import { DollarSign, CheckCircle, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { programs } from "@/data/programs"
 import { opportunities } from "@/data/opportunities"
 import type { Program } from "@/data/types"
+import { DeadlineBadge } from "@/components/deadline-badge"
 
 export default function ProgramsSection() {
   return (
@@ -78,14 +79,12 @@ function ProgramCard({ program }: { program: Program }) {
       <div className={`absolute top-0 left-0 right-0 h-1 ${program.accentColor}`} />
 
       <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-3">
           <div className={`p-3 rounded-xl ${program.bgColor} group-hover:scale-110 transition-transform duration-300`}>
             <IconComponent className={`h-6 w-6 ${program.iconColor}`} />
           </div>
-          <div className="text-right">
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mb-1">
-              Activo
-            </span>
+          <div className="flex flex-col items-end gap-1">
+            <DeadlineBadge deadline={program.deadline} />
             <div className="text-xs text-amber-700 font-medium">{opportunityLabel}</div>
           </div>
         </div>
@@ -105,15 +104,6 @@ function ProgramCard({ program }: { program: Program }) {
           <div>
             <span className="text-xs text-gray-500 block">Tipo</span>
             <span className="text-sm font-medium text-amber-800">{program.type}</span>
-          </div>
-        </div>
-
-        {/* Deadline */}
-        <div className="flex items-center space-x-3 p-2 rounded-lg bg-gray-50">
-          <Calendar className="h-4 w-4 text-amber-600 flex-shrink-0" />
-          <div>
-            <span className="text-xs text-gray-500 block">Cierre</span>
-            <span className="text-sm text-amber-700">{program.deadline}</span>
           </div>
         </div>
 

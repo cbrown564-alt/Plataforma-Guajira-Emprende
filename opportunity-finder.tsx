@@ -22,6 +22,9 @@ import {
 import type { LucideIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { DeadlineBadge } from "@/components/deadline-badge"
+import { compareDeadlineUrgency, getDeadlineStatus } from "@/lib/deadlines"
+import type { DeadlineStatus } from "@/lib/deadlines"
 import { opportunities } from "@/data/opportunities"
 import { programs } from "@/data/programs"
 import type {
@@ -70,6 +73,8 @@ type MatchResult = {
   maxScore: number
   typeLabel: string
   reasons: string[]
+  deadline: string
+  deadlineStatus: DeadlineStatus
 }
 
 const AUDIENCE_REASON: Record<MatchAudience, string> = {
@@ -126,6 +131,8 @@ function programToResult(
     maxScore: s.max,
     typeLabel: program.type,
     reasons: s.reasons,
+    deadline: program.deadline,
+    deadlineStatus: getDeadlineStatus(program.deadline),
   }
 }
 
@@ -147,6 +154,8 @@ function opportunityToResult(
     maxScore: s.max,
     typeLabel: opportunity.fundingType,
     reasons: s.reasons,
+    deadline: opportunity.deadline,
+    deadlineStatus: getDeadlineStatus(opportunity.deadline),
   }
 }
 
@@ -207,7 +216,10 @@ export default function OpportunityFinder() {
     })
 
     return [...programResults, ...opportunitiesToKeep]
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score
+        return compareDeadlineUrgency(a.deadlineStatus, b.deadlineStatus)
+      })
       .slice(0, 6)
   }, [hasSelection, selectedAudiences, selectedSupports])
 
@@ -426,11 +438,16 @@ function ResultCard({ result }: { result: MatchResult }) {
   const ratio = result.maxScore > 0 ? result.score / result.maxScore : 0
   const badge = matchLabel(ratio)
   const reasons = Array.from(new Set(result.reasons)).slice(0, 3)
+  const isClosed = result.deadlineStatus.kind === "closed"
 
   return (
     <Link
       href={result.href}
-      className="group block rounded-2xl bg-white border-2 border-amber-100 hover:border-turquoise-300 hover:shadow-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-turquoise-500 focus-visible:ring-offset-2"
+      className={`group block rounded-2xl bg-white border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-turquoise-500 focus-visible:ring-offset-2 ${
+        isClosed
+          ? "border-gray-200 opacity-80 hover:opacity-100 hover:border-gray-300"
+          : "border-amber-100 hover:border-turquoise-300 hover:shadow-lg"
+      }`}
     >
       <div className="p-5 lg:p-6">
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -441,7 +458,7 @@ function ResultCard({ result }: { result: MatchResult }) {
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <span className="text-[11px] font-semibold uppercase tracking-wide text-amber-600">
-                  {result.kind === "program" ? "Programa" : "Convocatoria abierta"}
+                  {result.kind === "program" ? "Programa" : "Convocatoria"}
                 </span>
                 <span className="text-[11px] text-amber-300" aria-hidden>
                   •
@@ -455,10 +472,7 @@ function ResultCard({ result }: { result: MatchResult }) {
               </h3>
             </div>
           </div>
-          <span className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[11px] font-semibold text-amber-800">
-            <span className={`inline-block w-1.5 h-1.5 rounded-full ${badge.dotClass}`} aria-hidden />
-            {badge.label}
-          </span>
+          <DeadlineBadge deadline={result.deadline} />
         </div>
 
         <p className="text-sm text-amber-700 leading-relaxed mb-4 line-clamp-2">
@@ -479,9 +493,18 @@ function ResultCard({ result }: { result: MatchResult }) {
           </ul>
         )}
 
-        <div className="flex items-center justify-end text-sm font-semibold text-turquoise-700 group-hover:text-turquoise-900">
-          <span>Ver detalles</span>
-          <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />
+        <div className="flex items-center justify-between gap-2 text-sm">
+          <span
+            className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-700"
+            aria-label={`Relevancia: ${badge.label}`}
+          >
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${badge.dotClass}`} aria-hidden />
+            {badge.label}
+          </span>
+          <span className="inline-flex items-center font-semibold text-turquoise-700 group-hover:text-turquoise-900">
+            Ver detalles
+            <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />
+          </span>
         </div>
       </div>
     </Link>
