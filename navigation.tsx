@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { CommandPaletteTrigger } from "@/components/command-palette"
 import { Menu, X } from "lucide-react"
 import Link from "next/link"
 
@@ -71,8 +72,9 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button - Desktop */}
-          <div className="hidden md:block">
+          {/* Search trigger + CTA - Desktop */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            <CommandPaletteTrigger theme={isScrolled ? "light" : "dark"} />
             <Link href="/onboarding">
               <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-4 lg:px-6 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-200 min-h-[44px]">
                 Únete Ahora
@@ -80,15 +82,19 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile controls: search + hamburger */}
+          <div className="md:hidden flex items-center gap-1">
+            <CommandPaletteTrigger
+              variant="icon"
+              theme={isScrolled ? "light" : "dark"}
+            />
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleMenu}
               className={`min-h-[44px] min-w-[44px] ${
-                isScrolled 
-                  ? "text-foreground hover:text-primary hover:bg-muted" 
+                isScrolled
+                  ? "text-foreground hover:text-primary hover:bg-muted"
                   : "text-white hover:text-white hover:bg-white/10"
               }`}
             >

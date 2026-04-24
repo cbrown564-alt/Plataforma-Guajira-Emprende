@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
+import { CommandPaletteProvider } from "@/components/command-palette"
 import { Toaster } from "@/components/ui/sonner"
 import { SITE_URL, CONTACT_EMAIL } from "@/lib/site-config"
 import "./globals.css"
@@ -233,7 +234,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
-        {children}
+        <CommandPaletteProvider>{children}</CommandPaletteProvider>
         <Toaster position="top-center" richColors />
       </body>
     </html>
